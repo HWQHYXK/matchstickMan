@@ -4,17 +4,39 @@ import java.util.*;
 
 public class Archimage
 {
-    private long time=0;
-    private boolean wait=false;
-    private double point=1e30;
-    private double state=0;
-    private double situation=0;
+    private boolean strong;
+
+    private long time;
+    private boolean wait;
+    private double point;
+
+    private double state;
+    private double situation;
+
     final double inf=1e30;
     final double eps=1e-10;
+
     final Random rand=new Random();
+    final Calculator calculator=new Calculator();
     final String[] key={"up","left","right","down","switch","attack","move","drop","rotate"};
-    public ArrayList<String> operate(Info now) {
+
+    public Archimage(){
+        wait=false;
+        point=1e30;
+    }
+
+    public ArrayList<String> operate(Info now,boolean strong) {
+        this.strong=strong;
+
         ArrayList<String> s=new ArrayList<String>();
+
+        if(strong) {
+            calculator.import_time(System.currentTimeMillis());
+
+            calculator.calc_speed(now);
+            calculator.calc_time(now);
+            calculator.calc_dis(now);
+        }
 
         if(now.B.isdrop) {
             if(!wait) {
@@ -71,10 +93,8 @@ public class Archimage
         if(be_rotated(now)) go=false;
 
         if(defend&go&move) return s;
-        if(!defend&&go&&move) {
-            if(situation==0&&state<2) return s;
+        if(!defend&&go&&move)
             return rand.nextBoolean()?go(now,true):move(now,true);
-        }
         while(true) {
             int t=rand.nextInt(3);
             if(t==0&&go) return go(now,true);
@@ -85,7 +105,11 @@ public class Archimage
     private ArrayList<String> attack(Info now) {
         ArrayList<String> s=new ArrayList<>();
 
-        if(now.B.hplocked || now.A.ballnumber==0) return s;
+        if(now.A.ballnumber==0) return s;
+        if(now.B.hplocked)  {
+            if(!strong) return s;
+            //TODO
+        }
         if(now.B.isdefending) {
             double dis=Math.abs(now.A.x-now.B.x);
             if(dis<200) {
