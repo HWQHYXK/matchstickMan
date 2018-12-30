@@ -74,7 +74,10 @@ public class Platform extends Application
             case "EVE":
                 EVE(new Archimage(true,Color.ROYALBLUE,true), new Warrior(false,Color.INDIANRED));
                 count(label, 3);
-
+                break;
+            case "EVE2":
+                EVE(new Archimage(true,Color.ROYALBLUE,false), new Archimage(false,Color.INDIANRED,false));
+                count(label,3);
         }
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -193,7 +196,7 @@ public class Platform extends Application
     {
         robot = r;
 //        mc.setRobot(robot);
-        robot.setLayoutX(width-30);
+        robot.setLayoutX(width-50);
         robot.setLayoutY(field);
         border.getChildren().add(robot);
         robot.setPlatform(border);

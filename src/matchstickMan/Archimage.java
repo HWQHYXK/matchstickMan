@@ -1,19 +1,113 @@
 package matchstickMan;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Archimage extends Robot
 {
     private boolean strong;
+    private BooleanProperty superFrozen = new SimpleBooleanProperty();
     public Archimage(boolean facingRight, Color skin, boolean strong)
     {
         super(facingRight, skin);
+        superFrozen.set(false);
+        superFrozen.addListener((frozen, old, now) ->
+        {
+            if(now)transfere.stop();
+            else transfere.play();
+        });
         this.strong = strong;
+    }
+    private class OnFinished implements EventHandler<ActionEvent>
+    {
+        ImageView imageView;
+        boolean flag = true;
+        @Override
+        public void handle(ActionEvent event)
+        {
+            if(flag&&!opponent.shadowMove.isMoving&&Math.abs(opponent.getLayoutX()-imageView.getLayoutX()-1.9*MatchstickMan.ratio)<2*MatchstickMan.ratio && Platform.field-opponent.getLayoutY()<MatchstickMan.ratio)
+            {
+                flag = false;
+                imageView.setLayoutX(0x3fffffff);
+                platform.getChildren().remove(imageView);
+                opponent.statusController.damageHP(5);
+            }
+        }
+    }
+    public void summon(int step)
+    {
+        if(step == 1)
+        {
+            superFrozen.set(true);
+            statusController.setFrozen(true);
+            statusController.setHPLocked(true);
+            ImageView effect;
+            if(!facingRight.get())
+            {
+                effect = new ImageView("matchstickMan/image/summon.gif");
+                effect.setLayoutX(-120);
+            }
+            else
+            {
+                effect = new ImageView("matchstickMan/image/summon1.gif");
+                effect.setLayoutX(120);
+            }
+            effect.setLayoutY(-60);
+            getChildren().add(effect);
+            new Timeline(new KeyFrame(Duration.seconds(3), event ->
+            {
+                getChildren().remove(effect);
+            })).play();
+        }
+        if(step == 5)
+        {
+            superFrozen.set(false);
+            return;
+        }
+        Random random = new Random();
+        int k = random.nextInt(2)+1;
+        ImageView imageView = new ImageView("matchstickMan/image/monster"+ k+".gif");
+        imageView.setLayoutY(field-100);
+        OnFinished onFinished = new OnFinished();
+        onFinished.imageView = imageView;
+        Timeline judge = new Timeline(new KeyFrame(Duration.millis(1), onFinished));
+        judge.setCycleCount(Timeline.INDEFINITE);
+        judge.play();
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1+random.nextDouble()),event ->
+        {
+
+            if(k%2==1)//facingRight
+            {
+                imageView.setLayoutX(leftBorder);
+                new Timeline(new KeyFrame(Duration.seconds(random.nextDouble()+5),event1 ->
+                {
+//                    platform.getChildren().remove(imageView);
+                }, new KeyValue(imageView.layoutXProperty(), rightBorder))).play();
+            }
+            else
+            {
+                imageView.setLayoutX(rightBorder);
+                new Timeline(new KeyFrame(Duration.seconds(random.nextDouble()+5),event1 ->
+                {
+//                    platform.getChildren().remove(imageView);
+                }, new KeyValue(imageView.layoutXProperty(), leftBorder))).play();
+            }
+            platform.getChildren().add(imageView);
+            summon(step+1);
+        }));
+        timeline.play();
     }
     public void transfere()
     {
@@ -21,6 +115,12 @@ public class Archimage extends Robot
         robot.Archimage main;
         info = new robot.Info(this.player, opponent.player);
         main = new robot.Archimage();
+        if(strong)
+        {
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> summon(0)));
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.play();
+        }
         transfere = new Timeline(new KeyFrame(Duration.millis(10), event ->
         {
             if(opponent.hp.get()<=0&&opponent.frozen.get())transfere.stop();

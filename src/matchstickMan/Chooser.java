@@ -97,6 +97,9 @@ public class Chooser extends Application
         rectangle1.setOnMouseClicked(event ->//hard
         {
 
+            borderPane.getChildren().clear();
+            primaryStage.close();
+            new Platform().display(primaryStage, "EVE2");
         });
         simple.setOnAction(event ->
         {

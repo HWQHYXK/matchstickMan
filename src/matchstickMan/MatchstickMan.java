@@ -22,7 +22,7 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
     public MatchstickMan opponent;
     /*---------------------------------------------------------------------------------------------*/
     public robot.Player player;
-    public StatusController statusController;
+    public StatusController statusController = new StatusController(this);
     public BooleanProperty frozen = new SimpleBooleanProperty();
     public BooleanProperty hpLocked = new SimpleBooleanProperty();
     public DoubleProperty hp = new SimpleDoubleProperty();
@@ -227,7 +227,6 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
         timeline.getKeyFrames().addAll(keyFrame, keyFrame1, keyFrame2, keyFrame3, keyFrame4, keyFrame5);
         timeline.setOnFinished(event -> frozen.set(false));
         timeline.play();
-        statusController = new StatusController(this);
         statusController.setFrozen(false);
         statusController.setHPLocked(false);
     }

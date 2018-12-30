@@ -71,6 +71,7 @@ public class ShadowMove implements Skill
                 man.statusController.setHPLocked(false);
                 man.statusController.setFrozen(false);
                 man.setEffect(null);
+                isMoving = false;
 //                if(man.shining.enabled)man.shining.stop();
             });
             timeline.setDelay(Duration.millis(50));
@@ -96,6 +97,7 @@ public class ShadowMove implements Skill
                 man.setEffect(null);
                 man.statusController.setHPLocked(false);
                 man.statusController.setFrozen(false);
+                isMoving = false;
             });
             timeline2.setDelay(Duration.millis(50));
             timeline2.play();
