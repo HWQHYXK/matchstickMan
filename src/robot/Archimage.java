@@ -72,15 +72,13 @@ public class Archimage
 
         double dis=Math.abs(now.A.x-now.B.x);
         if(dis > 900+rand.nextInt(200)) {
-            if(dis<1300 && rand.nextInt(400) < 1300-dis) return go(true);
+            if(dis<1300 && rand.nextInt(400) < 1300-dis) return move(true);
             else if(dis>1300 && rand.nextInt(250) > 1550-dis) s.add("drop");
             else s = go(rand.nextDouble() > 0.1618 * state + 0.1618 * situation);
         }
         else {
             if(rand.nextInt(5)==1) s.add("drop");
-            else
-            if (!now.A.isrotate) s.add("rotate");
-            else s = move(rand.nextDouble() > 0.3 * state + 0.3 * situation);
+            else s.add("rotate");;
         }
 
         return s;
@@ -155,18 +153,37 @@ public class Archimage
         }
         if(now.B.isdrop) {
             double dis=Math.abs(now.A.x-now.B.x);
-            if(dis < 450) return ballattack();
-            if(dis < 600) return go(false);
-            if(dis < 1200-66*now.B.ballnumber+rand.nextInt((int)((1-state)*255)+1)) return move(false);
+            if(!now.B.isdefending) {
+                if (dis < 450) return ballattack();
+                if (dis < 600) return go(false);
+                if (dis < 1200 - 66 * now.B.ballnumber + rand.nextInt((int) ((1 - state) * 255) + 1))
+                    return move(false);
+            }
+            else {
+                if(dis<233) {
+                    if(rand.nextInt(233) >= dis) return ballattack();
+                    return go(false);
+                }
+                if (dis < 300) return go(false);
+                if (dis < 1200 - 66 * now.B.ballnumber + rand.nextInt((int) ((1 - state) * 255) + 1))
+                    return move(false);
+
+            }
             if(dis > 888+66*now.B.ballnumber+rand.nextInt((int)((1-state)*235)+1)) {
                 s.add("drop");
                 return s;
             }
         }
+        double dis=Math.abs(now.A.x-now.B.x);
+        if(!now.B.isdefending && dis<450 && ((situation>0.7&&now.B.ballnumber<=now.A.ballnumber)||state<0.25)) return ballattack();
+
         if(now.B.ballnumber<now.A.ballnumber && now.A.hp>=now.B.ballnumber*10) {
-            int tt=0;//int tt=(int)(0.6618/situation+0.3382/state);
+            if(dis<200) {
+                if(rand.nextInt(200) >= dis) return ballattack();
+                return go(false);
+            }
+            int tt=(int)(0.6618/situation+0.3382/state)+1;
             if(tt==0 || rand.nextInt(tt)==0) {
-                double dis=Math.abs(now.A.x-now.B.x);
                 if(rand.nextDouble()<dis/1000 && !now.B.isdefending) return ballattack();
                 if(dis > 700) return move(false);
                 if(dis > 200) return go(false);
