@@ -5,6 +5,7 @@ import java.util.*;
 public class Archimage
 {
     private Info now;
+    private long nowtime;
     private boolean strong;
 
     private long time;
@@ -29,11 +30,12 @@ public class Archimage
     public ArrayList<String> operate(Info now,boolean strong) {
         this.now=now;
         this.strong=strong;
+        nowtime=System.currentTimeMillis();
 
         ArrayList<String> s=new ArrayList<String>();
 
         if(strong) {
-            calc.import_time(System.currentTimeMillis());
+            calc.import_time(nowtime);
             calc.import_info(now);
 
             calc.calc_speed();
@@ -42,13 +44,20 @@ public class Archimage
 
             if(now.B.hplocked) calc.calc_move();
         }
-
+        /*
+        System.out.println("A.x = "+now.A.x);
+        System.out.println("B.isdrop = "+now.B.isdrop);
+        System.out.println("wait = "+wait);
+        System.out.println("time = "+time);
+        System.out.println("nowtime = "+nowtime);
+        System.out.println();
+        */
         if(now.B.isdrop) {
-            if(!wait) {
+            if(!wait &&( point>3000 || nowtime-time>1300 )) {
                 wait=true;
-                time = System.currentTimeMillis();
+                time = nowtime;
             }
-            else if(time+250>=System.currentTimeMillis()) {
+            else if(wait && time+500 <= nowtime) {
                 point=now.A.x;
                 wait=false;
             }
@@ -63,13 +72,15 @@ public class Archimage
 
         double dis=Math.abs(now.A.x-now.B.x);
         if(dis > 900+rand.nextInt(200)) {
-            if(dis<1300 && rand.nextInt(400) < 1300-dis) return move(true);
+            if(dis<1300 && rand.nextInt(400) < 1300-dis) return go(true);
             else if(dis>1300 && rand.nextInt(250) > 1550-dis) s.add("drop");
             else s = go(rand.nextDouble() > 0.1618 * state + 0.1618 * situation);
         }
         else {
+            if(rand.nextInt(5)==1) s.add("drop");
+            else
             if (!now.A.isrotate) s.add("rotate");
-            else s = move(rand.nextDouble() > 0.3618 * state + 0.3618 * situation);
+            else s = move(rand.nextDouble() > 0.3 * state + 0.3 * situation);
         }
 
         return s;
@@ -95,17 +106,24 @@ public class Archimage
     private ArrayList<String> naturalReact() {
         ArrayList<String> s=new ArrayList<>();
 
-        int tt=(int)(0.618/situation+0.382/state);
-        if(tt==0 || rand.nextInt(tt)==0) return s;
+        if(!now.A.isdrop) {
+            int tt = (int) (0.618 / situation + 0.382 / state);
+            if (tt == 0 || rand.nextInt(tt) == 0) return s;
+        }
 
         boolean go=true,move=true,defend=true;
 
-        if(now.B.isdrop && Math.abs(now.A.x-point)<50) defend=false;
+        //System.out.println("point: "+point);
+        //System.out.println("abs(now.A.x-point): "+Math.abs(now.A.x-point));
+        if(now.B.isdrop && Math.abs(now.A.x-point)<200) defend=false;
         if(near()) defend=false;
-        if(ball_danger()) go=false;
+        if(ball_danger()){
+            if(defend) return defend();
+            go=false;
+        }
         if(be_rotated()) go=false;
 
-        if(defend&go&move) return s;
+        if(defend && go && move) return s;
         if(!defend&&go&&move)
             return rand.nextBoolean()?go(true):move(true);
         while(true) {
@@ -122,7 +140,7 @@ public class Archimage
         if(now.B.hplocked)  {
             if(!strong) return s;
             double dis=Math.abs(calc.get_pos()-now.A.x);
-            if(calc.get_ballSpeed()*(calc.get_time()-System.currentTimeMillis()) > dis) return ballattack();
+            if(calc.get_ballSpeed()*(calc.get_time()-nowtime) > dis) return ballattack();
         }
         if(now.B.isdefending) {
             double dis=Math.abs(now.A.x-now.B.x);
@@ -130,7 +148,7 @@ public class Archimage
                 if(rand.nextInt(200)<dis) return ballattack();
                 return go(false);
             }
-            if(dis > 888+66*now.B.ballnumber+rand.nextInt((int)((1-state)*236))) {
+            if(dis > 888+66*now.B.ballnumber+rand.nextInt((int)((1-state)*235)+1)) {
                 s.add("drop");
                 return s;
             }
@@ -179,8 +197,8 @@ public class Archimage
         boolean right=true;
         if(away) right=now.B.x<now.A.x;
         else right=now.B.x>now.A.x;
-        if(right && now.A.x>1750) right^=true;
-        else if(!right && now.A.x<50) right^=true;
+        if(right && now.A.x > 1730) right^=true;
+        else if(!right && now.A.x < 80) right^=true;
         s.add(right?"right":"left");
         return s;
     }
@@ -189,8 +207,8 @@ public class Archimage
         boolean right=true;
         if(away) right=now.B.x<now.A.x;
         else right=now.B.x>now.A.x;
-        if(right && now.A.x>1450) right^=true;
-        else if(!right && now.A.x<350) right^=true;
+        if(right && now.A.x > 1450) right^=true;
+        else if(!right && now.A.x < 350) right^=true;
         s.add(right?"right":"left");
         s.add("move");
         return s;
