@@ -1,4 +1,4 @@
-package archimage;
+package robot;
 
 public class Player extends mangFu.Player
 {

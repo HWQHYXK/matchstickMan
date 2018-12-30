@@ -1,4 +1,4 @@
-package archimage;
+package robot;
 
 public class Info extends mangFu.Info
 {
