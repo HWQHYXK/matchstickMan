@@ -72,13 +72,13 @@ public class Archimage
 
         double dis=Math.abs(now.A.x-now.B.x);
         if(dis > 900+rand.nextInt(200)) {
-            if(dis<1300 && rand.nextInt(400) < 1300-dis) return go(true);
+            if(dis<1300 && rand.nextInt(400) < 1300-dis) return move(true);
             else if(dis>1300 && rand.nextInt(250) > 1550-dis) s.add("drop");
             else s = go(rand.nextDouble() > 0.1618 * state + 0.1618 * situation);
         }
         else {
             if(rand.nextInt(5)==1) s.add("drop");
-            else
+            else return  s;
             if (!now.A.isrotate) s.add("rotate");
             else s = move(rand.nextDouble() > 0.3 * state + 0.3 * situation);
         }

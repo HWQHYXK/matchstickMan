@@ -63,7 +63,7 @@ public class Platform extends Application
                 break;
             case "fuck":
                 initMan(new MatchstickMan(true, Color.ROYALBLUE));
-                PVE(new Archimage(false,Color.INDIANRED,true));
+                PVE(new Archimage(true,Color.INDIANRED,true));
                 count(label,1);
                 break;
             case "PVP":
@@ -196,7 +196,7 @@ public class Platform extends Application
     {
         robot = r;
 //        mc.setRobot(robot);
-        robot.setLayoutX(width-100);
+        robot.setLayoutX(width-30);
         robot.setLayoutY(field);
         border.getChildren().add(robot);
         robot.setPlatform(border);

@@ -16,7 +16,8 @@ import java.util.Random;
 
 public class Archimage extends Robot
 {
-    private boolean strong;
+    private boolean strong,dragonRight;
+    private ImageView dragonView = new ImageView();
     private BooleanProperty superFrozen = new SimpleBooleanProperty();
     public Archimage(boolean facingRight, Color skin, boolean strong)
     {
@@ -31,16 +32,16 @@ public class Archimage extends Robot
     }
     private class OnFinished implements EventHandler<ActionEvent>
     {
-        ImageView imageView;
+        ImageView dragonView;
         boolean flag = true;
         @Override
         public void handle(ActionEvent event)
         {
-            if(flag&&!opponent.shadowMove.isMoving&&Math.abs(opponent.getLayoutX()-imageView.getLayoutX()-1.9*MatchstickMan.ratio)<2*MatchstickMan.ratio && Platform.field-opponent.getLayoutY()<MatchstickMan.ratio)
+            if(flag&&!opponent.shadowMove.isMoving&&Math.abs(opponent.getLayoutX()-dragonView.getLayoutX()-1.9*MatchstickMan.ratio)<2*MatchstickMan.ratio && Platform.field-opponent.getLayoutY()<MatchstickMan.ratio)
             {
                 flag = false;
-                imageView.setLayoutX(0x3fffffff);
-                platform.getChildren().remove(imageView);
+                dragonView.setLayoutX(0x3fffffff);
+                platform.getChildren().remove(dragonView);
                 opponent.statusController.damageHP(5);
             }
         }
@@ -68,7 +69,8 @@ public class Archimage extends Robot
                 wing = new ImageView("matchstickMan/image/wing3.gif");
                 wing.setScaleX(1.5);
                 wing.setScaleY(1.5);
-                wing.setLayoutX(-100);
+                wing.setLayoutX(-124);
+                wing.setLayoutY(-15);
                 effect = new ImageView("matchstickMan/image/summon1.gif");
             }
             effect.setLayoutY(-60);
@@ -77,7 +79,7 @@ public class Archimage extends Robot
             new Timeline(new KeyFrame(Duration.millis(800),new KeyValue(layoutYProperty(), field-20*ratio))).play();
             new Timeline(new KeyFrame(Duration.seconds(5), event ->
             {
-                getChildren().remove(effect);
+                getChildren().removeAll(effect,wing);
             })).play();
         }
         if(step == 5)
@@ -90,10 +92,10 @@ public class Archimage extends Robot
         }
         Random random = new Random();
         int k = random.nextInt(2)+1;
-        ImageView imageView = new ImageView("matchstickMan/image/monster"+ k+".gif");
-        imageView.setLayoutY(field-100);
+        ImageView dragonView = new ImageView("matchstickMan/image/monster"+ k+".gif");
+        dragonView.setLayoutY(field-100);
         OnFinished onFinished = new OnFinished();
-        onFinished.imageView = imageView;
+        onFinished.dragonView = dragonView;
         Timeline judge = new Timeline(new KeyFrame(Duration.millis(1), onFinished));
         judge.setCycleCount(Timeline.INDEFINITE);
         judge.play();
@@ -103,21 +105,21 @@ public class Archimage extends Robot
 
             if(k%2==1)//facingRight
             {
-                imageView.setLayoutX(leftBorder);
+                dragonView.setLayoutX(leftBorder);
                 new Timeline(new KeyFrame(Duration.seconds(random.nextDouble()+5),event1 ->
                 {
-                    platform.getChildren().remove(imageView);
-                }, new KeyValue(imageView.layoutXProperty(), rightBorder))).play();
+                    platform.getChildren().remove(dragonView);
+                }, new KeyValue(dragonView.layoutXProperty(), rightBorder))).play();
             }
             else
             {
-                imageView.setLayoutX(rightBorder);
+                dragonView.setLayoutX(rightBorder);
                 new Timeline(new KeyFrame(Duration.seconds(random.nextDouble()+5),event1 ->
                 {
-                    platform.getChildren().remove(imageView);
-                }, new KeyValue(imageView.layoutXProperty(), leftBorder))).play();
+                    platform.getChildren().remove(dragonView);
+                }, new KeyValue(dragonView.layoutXProperty(), leftBorder))).play();
             }
-            platform.getChildren().add(imageView);
+            platform.getChildren().add(dragonView);
             summon(step+1);
         }));
         timeline.play();
@@ -125,6 +127,40 @@ public class Archimage extends Robot
     public void tornado()
     {
 
+    }
+    public void dragon()
+    {
+        Timeline dragon = new Timeline(new KeyFrame(Duration.seconds(1.3), event ->
+        {
+            if(dragonRight)
+            {
+                if(300<=opponent.getLayoutX()&&opponent.getLayoutX()<=(rightBorder-leftBorder)/2)
+                {
+                    if(!opponent.shield.showing||opponent.shield.right) opponent.statusController.damageHP(10);
+                }
+            }
+            else
+            {
+                if((rightBorder-leftBorder)/2<=opponent.getLayoutX()&&opponent.getLayoutX()<=rightBorder-300)
+                {
+                    if(!opponent.shield.showing||!opponent.shield.right)opponent.statusController.damageHP(10);
+                }
+            }
+        }), new KeyFrame(Duration.seconds(2), event -> platform.getChildren().remove(dragonView)));
+        dragon.play();
+        if(opponent.getLayoutX()<=(rightBorder-leftBorder)/2)
+        {
+            dragonRight = true;//pen you mian
+            dragonView = new ImageView("matchstickMan/image/dragon1.gif");
+        }
+        else
+        {
+            dragonRight = false;
+            dragonView = new ImageView("matchstickMan/image/dragon2.gif");
+            dragonView.setLayoutX(rightBorder-dragonView.getImage().getWidth());
+        }
+        dragonView.setLayoutY(Platform.field-220);
+        platform.getChildren().add(0,dragonView);
     }
     public void transfere()
     {
@@ -134,14 +170,21 @@ public class Archimage extends Robot
         main = new robot.Archimage();
         if(strong)
         {
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event ->
+            Random random = new Random();
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(15), event ->
             {
-                if(hp.get()>50)summon(0);
+                if(random.nextBoolean())summon(0);
+            }), new KeyFrame(Duration.seconds(20), event ->
+            {
+                if(random.nextBoolean()) dragon();
             }));
             timeline.setCycleCount(Timeline.INDEFINITE);
             timeline.play();
         }
-        transfere = new Timeline(new KeyFrame(Duration.millis(10), event ->
+        Duration duration;
+        if(strong)duration = Duration.millis(10);
+        else duration = Duration.millis(61.8);
+        transfere = new Timeline(new KeyFrame(duration, event ->
         {
             if(opponent.hp.get()<=0&&opponent.frozen.get())transfere.stop();
             double[][] ball=new double[4][2];
