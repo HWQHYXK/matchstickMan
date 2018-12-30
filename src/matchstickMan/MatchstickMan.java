@@ -83,15 +83,15 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
         this.skin = skin;
         if(facingRight)eye = new Circle(ratio/2,0,ratio/5, Color.WHITE);
         else eye = new Circle(-ratio/2,0,ratio/5, Color.WHITE);
-        leftBackArm.setStrokeWidth(3);
-        rightBackArm.setStrokeWidth(3);
-        leftForeArm.setStrokeWidth(3);
-        rightForeArm.setStrokeWidth(3);
-        leftBackLeg.setStrokeWidth(3);
-        rightBackLeg.setStrokeWidth(3);
-        leftForeLeg.setStrokeWidth(3);
-        rightForeLeg.setStrokeWidth(3);
-        body.setStrokeWidth(4);
+        leftBackArm.setStrokeWidth(7);
+        rightBackArm.setStrokeWidth(7);
+        leftForeArm.setStrokeWidth(7);
+        rightForeArm.setStrokeWidth(7);
+        leftBackLeg.setStrokeWidth(7);
+        rightBackLeg.setStrokeWidth(7);
+        leftForeLeg.setStrokeWidth(7);
+        rightForeLeg.setStrokeWidth(7);
+        body.setStrokeWidth(7);
 
         head.centerXProperty().bind(body.startXProperty());
         head.centerYProperty().bind(body.startYProperty());

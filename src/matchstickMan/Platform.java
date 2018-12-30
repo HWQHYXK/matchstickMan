@@ -35,7 +35,7 @@ public class Platform extends Application
 //    public Line hor = new Line(0,6.5*MatchstickMan.ratio+height/2,width,6.5*MatchstickMan.ratio+height/2);
     public void start(Stage primaryStage)
     {
-        display(primaryStage, "normal");
+        display(primaryStage, "fuck");
     }
     public void display(Stage primaryStage, String mode)
     {
@@ -196,7 +196,7 @@ public class Platform extends Application
     {
         robot = r;
 //        mc.setRobot(robot);
-        robot.setLayoutX(width-50);
+        robot.setLayoutX(width-100);
         robot.setLayoutY(field);
         border.getChildren().add(robot);
         robot.setPlatform(border);

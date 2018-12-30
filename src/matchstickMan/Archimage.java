@@ -52,27 +52,40 @@ public class Archimage extends Robot
             superFrozen.set(true);
             statusController.setFrozen(true);
             statusController.setHPLocked(true);
-            ImageView effect;
+            ImageView effect, wing;
             if(!facingRight.get())
             {
+                wing = new ImageView("matchstickMan/image/wing4.gif");
+                wing.setScaleX(1.5);
+                wing.setScaleY(1.5);
+                wing.setLayoutX(-49);
+                wing.setLayoutY(-15);
                 effect = new ImageView("matchstickMan/image/summon.gif");
-                effect.setLayoutX(-120);
+                effect.setLayoutX(-200);
             }
             else
             {
+                wing = new ImageView("matchstickMan/image/wing3.gif");
+                wing.setScaleX(1.5);
+                wing.setScaleY(1.5);
+                wing.setLayoutX(-100);
                 effect = new ImageView("matchstickMan/image/summon1.gif");
-                effect.setLayoutX(120);
             }
             effect.setLayoutY(-60);
-            getChildren().add(effect);
-            new Timeline(new KeyFrame(Duration.seconds(3), event ->
+            getChildren().addAll(effect);
+            getChildren().add(0,wing);
+            new Timeline(new KeyFrame(Duration.millis(800),new KeyValue(layoutYProperty(), field-20*ratio))).play();
+            new Timeline(new KeyFrame(Duration.seconds(5), event ->
             {
                 getChildren().remove(effect);
             })).play();
         }
         if(step == 5)
         {
-            superFrozen.set(false);
+            new Timeline(new KeyFrame(Duration.millis(500),event ->
+            {
+                superFrozen.set(false);
+            }, new KeyValue(layoutYProperty(), field-6.5*ratio))).play();
             return;
         }
         Random random = new Random();
@@ -85,7 +98,7 @@ public class Archimage extends Robot
         judge.setCycleCount(Timeline.INDEFINITE);
         judge.play();
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1+random.nextDouble()),event ->
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5+random.nextDouble()),event ->
         {
 
             if(k%2==1)//facingRight
@@ -93,7 +106,7 @@ public class Archimage extends Robot
                 imageView.setLayoutX(leftBorder);
                 new Timeline(new KeyFrame(Duration.seconds(random.nextDouble()+5),event1 ->
                 {
-//                    platform.getChildren().remove(imageView);
+                    platform.getChildren().remove(imageView);
                 }, new KeyValue(imageView.layoutXProperty(), rightBorder))).play();
             }
             else
@@ -101,13 +114,17 @@ public class Archimage extends Robot
                 imageView.setLayoutX(rightBorder);
                 new Timeline(new KeyFrame(Duration.seconds(random.nextDouble()+5),event1 ->
                 {
-//                    platform.getChildren().remove(imageView);
+                    platform.getChildren().remove(imageView);
                 }, new KeyValue(imageView.layoutXProperty(), leftBorder))).play();
             }
             platform.getChildren().add(imageView);
             summon(step+1);
         }));
         timeline.play();
+    }
+    public void tornado()
+    {
+
     }
     public void transfere()
     {
@@ -117,7 +134,10 @@ public class Archimage extends Robot
         main = new robot.Archimage();
         if(strong)
         {
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> summon(0)));
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event ->
+            {
+                if(hp.get()>50)summon(0);
+            }));
             timeline.setCycleCount(Timeline.INDEFINITE);
             timeline.play();
         }
