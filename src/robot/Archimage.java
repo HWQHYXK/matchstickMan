@@ -76,7 +76,7 @@ public class Archimage
 
         double dis=Math.abs(now.A.x-now.B.x);
 
-        if(going) {
+        if(going&&!strong) {
             if(!now.A.isrotate) s.add("rotate");
             else return go(false);
         }
