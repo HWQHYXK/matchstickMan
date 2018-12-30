@@ -72,7 +72,7 @@ public class Platform extends Application
                 count(label,2);
                 break;
             case "EVE":
-                EVE(new Archimage(true,Color.ROYALBLUE,true), new Warrior(true,Color.INDIANRED));
+                EVE(new Archimage(true,Color.ROYALBLUE,true), new Warrior(false,Color.INDIANRED));
                 count(label, 3);
 
         }
