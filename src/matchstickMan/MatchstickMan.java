@@ -21,8 +21,7 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
 {
     public MatchstickMan opponent;
     /*---------------------------------------------------------------------------------------------*/
-    public mangFu.Player player1;
-    public archimage.Player player2;
+    public robot.Player player;
     public StatusController statusController;
     public BooleanProperty frozen = new SimpleBooleanProperty();
     public BooleanProperty hpLocked = new SimpleBooleanProperty();
@@ -531,40 +530,20 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
     }
     public void toPlayer(boolean mang)
     {
-        if(mang)
+        player = new robot.Player();
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(0.1), event ->
         {
-            player1 = new mangFu.Player();
-            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(0.1), event ->
-            {
-                int count = balls.size();
-                for(Ball ball:balls)
-                {
-                    if(ball.aimed||!ball.isVisible())count--;
-                }
-                player1.init(getLayoutX(), getLayoutY(), hp.get(), count, hpLocked.get(), facingRight.get(), this.getChildren().contains(shield));
-//            else mangFu.init(getLayoutX(), getLayoutY(), hp.get(), balls.size(), hpLocked.get(), facingRight.get(), this.getChildren().contains(shield));
-            }));
-            timeline.setCycleCount(Timeline.INDEFINITE);
-            timeline.play();
-        }
-        else
-        {
-            player2 = new archimage.Player();
-            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(0.1), event ->
-            {
 //            boolean flag = false;
-                int count = balls.size();
-                for(Ball ball:balls)
-                {
-                    if(ball.aimed||!ball.isVisible())count--;
-                }
-                player2.init(getLayoutX(), getLayoutY(), hp.get(), count, hpLocked.get(), facingRight.get(), this.getChildren().contains(shield), stick.isRotating, stick.frozen);
+            int count = balls.size();
+            for(Ball ball:balls)
+            {
+                if(ball.aimed||!ball.isVisible())count--;
+            }
+            player.init(getLayoutX(), getLayoutY(), hp.get(), count, hpLocked.get(), facingRight.get(), this.getChildren().contains(shield), stick.isRotating, stick.frozen);
 //            else archimage.init(getLayoutX(), getLayoutY(), hp.get(), balls.size(), hpLocked.get(), facingRight.get(), this.getChildren().contains(shield));
-            }));
-            timeline.setCycleCount(Timeline.INDEFINITE);
-            timeline.play();
-        }
-
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
     public void clearStatus() {
 //        System.out.println("modifying...");

@@ -63,9 +63,16 @@ public class DeathDetector implements ChangeListener<Number>
         {
             man.frozen.setValue(true);
             Button restart = new Button("RESTART");
+            restart.setPrefWidth(200);
+            restart.setPrefHeight(100);
             restart.setTextFill(Color.RED);
-            restart.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
-            man.platform.setCenter(new Button());
+            restart.setStyle("-fx-background-color: SkyBlue;-fx-font-weight: bold; -fx-font-size: 20;-fx-background-radius: 10");
+            restart.setOnAction(event ->
+            {
+                Platform.stage.close();
+                new Chooser().display(Platform.stage);
+            });
+            man.platform.setCenter(restart);
         }
     }
     public DeathDetector(MatchstickMan man)
