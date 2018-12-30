@@ -25,8 +25,18 @@ public class Archimage extends Robot
         superFrozen.set(false);
         superFrozen.addListener((frozen, old, now) ->
         {
-            if(now)transfere.stop();
-            else transfere.play();
+            if(now)
+            {
+                statusController.setFrozen(true);
+                statusController.setHPLocked(true);
+                transfere.stop();
+            }
+            else
+            {
+                statusController.setFrozen(false);
+                statusController.setHPLocked(false);
+                transfere.play();
+            }
         });
         this.strong = strong;
     }
@@ -51,8 +61,6 @@ public class Archimage extends Robot
         if(step == 1)
         {
             superFrozen.set(true);
-            statusController.setFrozen(true);
-            statusController.setHPLocked(true);
             ImageView effect, wing;
             if(!facingRight.get())
             {

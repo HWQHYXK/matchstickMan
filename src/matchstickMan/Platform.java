@@ -63,7 +63,7 @@ public class Platform extends Application
                 break;
             case "fuck":
                 initMan(new MatchstickMan(true, Color.ROYALBLUE));
-                PVE(new Archimage(true,Color.INDIANRED,true));
+                PVE(new Archimage(false,Color.INDIANRED,true));
                 count(label,1);
                 break;
             case "PVP":
