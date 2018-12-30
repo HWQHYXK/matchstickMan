@@ -7,18 +7,20 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
-public class Warrior extends Robot
+public class Archimage extends Robot
 {
-    public Warrior(boolean facingRight, Color skin)
+    private boolean strong;
+    public Archimage(boolean facingRight, Color skin, boolean strong)
     {
         super(facingRight, skin);
+        this.strong = strong;
     }
     public void transfere()
     {
         robot.Info info;
-        robot.Warrior main;
+        robot.Archimage main;
         info = new robot.Info(this.player, opponent.player);
-        main = new robot.Warrior();
+        main = new robot.Archimage();
         transfere = new Timeline(new KeyFrame(Duration.millis(10), event ->
         {
             if(opponent.hp.get()<=0&&opponent.frozen.get())transfere.stop();
@@ -43,11 +45,11 @@ public class Warrior extends Robot
                 }
             }
             info.init(ball);
-            ArrayList<String> strings = main.operate(info);
+            ArrayList<String> strings = main.operate(info, strong);
 //            if(!last.equals(strings)&&!strings.isEmpty())
 //            {
-//            for(int i=0;i<strings.size();i++)System.out.print(strings.get(i)+" ");
-//            System.out.println();
+            for(int i=0;i<strings.size();i++)System.out.print(strings.get(i)+" ");
+            System.out.println();
 //            }
             MotionController.auto(this, strings, 0);
         }));

@@ -4,6 +4,7 @@ import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class Robot extends MatchstickMan implements ChangeListener<Boolean>
             shinningg= new SimpleBooleanProperty();
     protected Timeline transfere;
     ArrayList<BooleanProperty> dict = new ArrayList<>();
-    public Robot(boolean facingRight, MotionController mc, Color skin)
+    public Robot(boolean facingRight, Color skin)
     {
         super(facingRight, skin);
         upp .set(false);
@@ -41,17 +42,179 @@ public class Robot extends MatchstickMan implements ChangeListener<Boolean>
         dict.add(rotatee);
 
 
-        upp.addListener(mc::upp);
-        downn.addListener(mc::downn);
-        leftt.addListener(mc::leftt);
-        rightt.addListener(mc::rightt);
-        switchh.addListener(mc::switchh);
-        attackk.addListener(mc::attackk);
-        movee.addListener(mc::movee);
-        dropp.addListener(mc::dropp);
-        rotatee.addListener(mc::rotatee);
+        upp.addListener(this::uppp);
+        downn.addListener(this::downnn);
+        leftt.addListener(this::lefttt);
+        rightt.addListener(this::righttt);
+        switchh.addListener(this::switchhh);
+        attackk.addListener(this::attackkk);
+        movee.addListener(this::moveee);
+        dropp.addListener(this::droppp);
+        rotatee.addListener(this::rotateee);
     }
-    public void transfere(MotionController mc)
+    public void uppp(ObservableValue<? extends Boolean> up, Boolean oldpressed, Boolean newpressed)
+    {
+        if(!newpressed)this.upp(newpressed);
+//        if(newpressed)
+//        {
+//            if(!this.frozen.get() && !this.isJumping)
+//            {
+//                this.isJumping = true;
+//                this.jump(15 * MatchstickMan.ratio);
+//            }
+//        }
+//        if(!newpressed)
+//        {
+//
+//        }
+    }
+    public void downnn(ObservableValue<? extends Boolean> down, Boolean oldpressed, Boolean newpressed)
+    {
+        if(!newpressed)this.downn(newpressed);
+//        if(newpressed)
+//        {
+////            System.out.println(" jkd here");
+//            if(!this.frozen.get() && !this.isJumping)
+//            {
+//                if(this.facingRight.get())this.shield.right();
+//                else this.shield.left();
+//                if(!this.shield.showing)this.statusController.setFrozen(true);
+//                this.shield.show();
+//                this.down();
+//                this.stick.up();
+//            }
+//        }
+//        if(!newpressed)
+//        {
+//            this.up();
+//            this.shield.disappear();
+//            this.stick.down();
+//        }
+    }
+    public void lefttt(ObservableValue<? extends Boolean> left, Boolean oldpressed, Boolean newpressed)
+    {
+        if(!newpressed)this.leftt(newpressed);
+//        if(newpressed)
+//        {
+////            System.out.println("×ó");
+//            if(!this.frozen.get() && !this.isMoving)
+//            {
+////                System.out.println("here");
+//                if (this.isJumping) this.left(Duration.millis(150));
+//                else this.left();
+//            }
+//        }
+//        if(!newpressed)
+//        {
+//            this.stop();
+//        }
+    }
+    public void righttt(ObservableValue<? extends Boolean> right, Boolean oldpressed, Boolean newpressed)
+    {
+        if(!newpressed)this.rightt(newpressed);
+//        if(newpressed)
+//        {
+//            if(!this.frozen.get() && !this.isMoving)
+//            {
+//                if(this.isJumping) this.right(Duration.millis(150));
+//                else this.right();
+//            }
+//        }
+//        if(!newpressed)
+//        {
+//            this.stop();
+//        }
+    }
+    public void switchhh(ObservableValue<? extends Boolean> switchh, Boolean oldpressed, Boolean newpressed)
+    {
+        if(!newpressed)this.switchh(newpressed);
+//        if(newpressed)
+//        {
+//            if(!this.frozen.get())
+//            {
+//                boolean flag = true;
+//                for(Ball ball:this.balls)
+//                {
+//                    if(ball.isAttacking || ball.isRecovering)flag = false;
+//                }
+//                for(Ball ball:this.balls)
+//                {
+//                    if(flag)
+//                    {
+//                        if (!this.getChildren().contains(ball) && !this.platform.getChildren().contains(ball))
+//                            ball.play();
+//                        else ball.stop();
+//                    }
+//                }
+//            }
+//        }
+//        if(!newpressed)
+//        {
+//
+//        }
+    }
+    public void attackkk(ObservableValue<? extends Boolean> attack, Boolean oldpressed, Boolean newpressed)
+    {
+        if(!newpressed)this.attackk(newpressed);
+//        if(newpressed)
+//        {
+//            if(!this.frozen.get()&&!this.stick.frozen)
+//            {
+//                Ball.ballsAttack(this);
+//                if(!this.isAttacking)this.attack();
+//            }
+//        }
+//        if(!newpressed)
+//        {
+//
+//        }
+    }
+    public void moveee(ObservableValue<? extends Boolean> move, Boolean oldpressed, Boolean newpressed)
+    {
+        if(!newpressed)this.movee(newpressed);
+//        if(newpressed)
+//        {
+//            if(!this.frozen.get() && !this.isJumping)
+//            {
+//                this.shadowMove.play();
+//            }
+//        }
+//        if(!newpressed)
+//        {
+//
+//        }
+    }
+    public void droppp(ObservableValue<? extends Boolean> drop, Boolean oldpressed, Boolean newpressed)
+    {
+        if(!newpressed)this.dropp(newpressed);
+//        if(newpressed)
+//        {
+//            if(!this.frozen.get() && !this.isJumping)
+//            {
+//                this.stick.fly();
+//            }
+//        }
+//        if(!newpressed)
+//        {
+//
+//        }
+    }
+    public void rotateee(ObservableValue<? extends Boolean> rotate, Boolean oldpressed, Boolean newpressed)
+    {
+        if(!newpressed)this.rotatee(newpressed);
+//        if(newpressed)
+//        {
+//            if(!robot.frozen.get() && !robot.isJumping)
+//            {
+//                robot.stick.fly();
+//            }
+//        }
+//        if(!newpressed)
+//        {
+//
+//        }
+    }
+    public void transfere()
     {
 
     }

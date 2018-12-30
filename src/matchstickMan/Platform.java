@@ -24,10 +24,10 @@ public class Platform extends Application
     public static final double field = height*0.75;
     public BorderPane border = new BorderPane();
     public Scene scene = new Scene(border, width, height);
-    public MatchstickMan man = new MatchstickMan(true, Color.ROYALBLUE);
+    public MatchstickMan man;
     public MatchstickMan man2;
-    public Robot robot;
-    public MotionController mc = new MotionController(man);
+    public Robot robot, goodRobot;
+    public MotionController mc;
     public ProgressBar hp = new ProgressBar();
     public ProgressBar hp2 = new ProgressBar();
     public static Stage stage;
@@ -41,9 +41,6 @@ public class Platform extends Application
     {
         stage = primaryStage;
         primaryStage.centerOnScreen();
-        scene.setOnKeyPressed(mc::pressedHandler);
-        scene.setOnKeyReleased(mc::releasedHandler);
-        initMan();
         Label label = new Label("3");
         label.setTextFill(Color.DARKRED);
         label.setStyle("-fx-font-size: 100");
@@ -51,21 +48,32 @@ public class Platform extends Application
         switch (mode)
         {
             case "simple":
-                count(label,true);
+                initMan(new MatchstickMan(true, Color.ROYALBLUE));
+                count(label,1);
                 break;
             case "normal":
-                archimage();
-                count(label,true);
+                initMan(new MatchstickMan(true, Color.ROYALBLUE));
+                PVE(new Archimage(false,Color.INDIANRED,false));
+                count(label,1);
                 break;
             case "hard":
-                count(label,true);
+                initMan(new MatchstickMan(true, Color.ROYALBLUE));
+                PVE(new Warrior(false,Color.INDIANRED));
+                count(label,1);
                 break;
             case "fuck":
-                count(label,true);
+                initMan(new MatchstickMan(true, Color.ROYALBLUE));
+                PVE(new Archimage(false,Color.INDIANRED,true));
+                count(label,1);
                 break;
             case "PVP":
+                initMan(new MatchstickMan(true, Color.ROYALBLUE));
                 PVP();
-                count(label,false);
+                count(label,2);
+                break;
+            case "EVE":
+                EVE(new Archimage(true,Color.ROYALBLUE,true), new Warrior(true,Color.INDIANRED));
+                count(label, 3);
 
         }
         primaryStage.setScene(scene);
@@ -75,11 +83,13 @@ public class Platform extends Application
     {
         launch(args);
     }
-    public void initMan()
+    public void pre()
     {
-//        Button start = new Button("Press or Enter!");
-//        start.setPrefWidth(100);
-//        start.setPrefHeight(100);
+        if(mc != null)
+        {
+            scene.setOnKeyPressed(mc::pressedHandler);
+            scene.setOnKeyReleased(mc::releasedHandler);
+        }
         hp.setProgress(1);
         hp.setStyle("-fx-accent: BLUE");
         hp.setPrefSize(400,30);
@@ -92,10 +102,17 @@ public class Platform extends Application
                 new BackgroundSize(1,1,true,true,false,false))));
         ghp.setSpacing(width/5);
         border.setTop(ghp);
+    }
+    public void initMan(MatchstickMan man)
+    {
+//        Button start = new Button("Press or Enter!");
+//        start.setPrefWidth(100);
+//        start.setPrefHeight(100);
+        this.man = man;
+        mc = new MotionController(man);
+        pre();
         man.setLayoutX(30);
         man.setLayoutY(field);
-//        PVP();
-//        archimage();
         border.getChildren().add(man);
         man.leftBorder = 0;
         man.rightBorder = width;
@@ -108,7 +125,7 @@ public class Platform extends Application
         man.enable("Stick");
 //        border.setBottom(new ImageView(new Image("/matchStickMan/image/stick.png")));
     }
-    public void count(Label label, boolean pve)
+    public void count(Label label, int mode)
     {
         new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(label.textProperty(), "2"))
                 ,new KeyFrame(Duration.seconds(2), new KeyValue(label.textProperty(), "1"))
@@ -119,17 +136,28 @@ public class Platform extends Application
             {
                 border.getChildren().remove(label);
             }, new KeyValue(label.scaleXProperty(), 1.5), new KeyValue(label.scaleYProperty(), 1.5))).play();
-            man.init();
-            if(pve)
+
+            if(mode == 1)//pve
             {
+                man.init();
                 robot.init();
                 ArrayList<String> arrayList = new ArrayList<>();
                 arrayList.add("switch");
-                mc.auto(arrayList, 0);
+                MotionController.auto(robot, arrayList, 0);
+            }
+            else if(mode == 2)//pvp
+            {
+                man.init();
+                man2.init();
             }
             else
             {
-                man2.init();
+                goodRobot.init();
+                robot.init();
+                ArrayList<String> arrayList = new ArrayList<>();
+                arrayList.add("switch");
+                MotionController.auto(goodRobot, arrayList, 0);
+                MotionController.auto(robot, arrayList, 0);
             }
 
         },new KeyValue(label.textProperty(), "Fight"))).play();
@@ -164,7 +192,7 @@ public class Platform extends Application
     public void PVE(Robot r)
     {
         robot = r;
-        mc.setRobot(robot);
+//        mc.setRobot(robot);
         robot.setLayoutX(width-30);
         robot.setLayoutY(field);
         border.getChildren().add(robot);
@@ -179,17 +207,45 @@ public class Platform extends Application
         man.setOpponent(robot);
         robot.setOpponent(man);
         hp2.progressProperty().bind(robot.hp.divide(100));
-        man.toPlayer(!(r instanceof Warrior));
-        robot.toPlayer(!(r instanceof Warrior));
-        robot.transfere(mc);
+        man.toPlayer();
+        robot.toPlayer();
+        robot.transfere();
     }
-    public void normal()
+    public void EVE(Robot gr, Robot br)
     {
-        PVE(new Robot(false, mc, Color.INDIANRED));
-//        robot.shining.play(robot.skin);
-    }
-    public void archimage()
-    {
-        PVE(new Warrior(false,mc,Color.INDIANRED));
+        pre();
+        goodRobot = gr;
+        robot = br;
+//        mc.setRobot(robot);
+        goodRobot.setLayoutX(30);
+        robot.setLayoutX(width-30);
+        goodRobot.setLayoutY(field);
+        robot.setLayoutY(field);
+        border.getChildren().add(goodRobot);
+        border.getChildren().add(robot);
+        goodRobot.setPlatform(border);
+        robot.setPlatform(border);
+        goodRobot.leftBorder = 0;
+        robot.leftBorder = 0;
+        goodRobot.rightBorder = width;
+        robot.rightBorder = width;
+        goodRobot.enable("Stick");
+        robot.enable("Stick");
+        goodRobot.enable("Shield");
+        robot.enable("Shield");
+        goodRobot.enable("Shinning");
+        robot.enable("Shining");
+        goodRobot.enable("Ball");
+        robot.enable("Ball");
+        goodRobot.enable("ShadowMove");
+        robot.enable("ShadowMove");
+        goodRobot.setOpponent(robot);
+        robot.setOpponent(goodRobot);
+        hp.progressProperty().bind(goodRobot.hp.divide(100));
+        hp2.progressProperty().bind(robot.hp.divide(100));
+        goodRobot.toPlayer();
+        robot.toPlayer();
+        goodRobot.transfere();
+        robot.transfere();
     }
 }

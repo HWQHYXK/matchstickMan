@@ -17,10 +17,10 @@ public class MotionController
 {
     public MatchstickMan man;
     public MatchstickMan man2;
-    public Robot robot;
+//    public Robot robot,robot1;
     public HashMap<String, KeyCode> map1 = new HashMap<>();
     public HashMap<String, KeyCode> map2 = new HashMap<>();
-    boolean[] b = new boolean[]{false, false, false, false, false, false, false, false, false};
+    static boolean[] b = new boolean[]{false, false, false, false, false, false, false, false, false};
     public void initMap1()
     {
         map1.put("up", KeyCode.W);
@@ -126,11 +126,12 @@ public class MotionController
         initMap1();
         initMap2();
     }
-    public void setRobot(Robot robot)
-    {
-        this.robot = robot;
-    }
-    public void auto(ArrayList<String> commands, int i) {
+//    public void setRobot(Robot robot)
+//    {
+//        this.robot = robot;
+//    }
+//    public void setRobot1(Robot robot1){this.robot1 = robot1;}
+    public static void auto(Robot robot,ArrayList<String> commands, int i) {
         if (i < commands.size()) new Timeline(new KeyFrame(Duration.millis(3), event ->
 //        if (i < commands.size())
         {
@@ -180,7 +181,7 @@ public class MotionController
                     robot.rotatee.set(true);
                     robot.rotatee(true);
             }
-            auto(commands, i + 1);
+            auto(robot, commands, i + 1);
         }
         )).play();
         else
@@ -200,52 +201,52 @@ public class MotionController
             Arrays.fill(b, false);
         }
     }
-public void auto(ArrayList<String> commands)
-{
-    boolean[] b = new boolean[]{false, false, false, false, false, false, false};
-    for(String command:commands)
-    {
-        switch (command)
-        {
-            case "up":
-                b[0] = true;
-                robot.upp.set(true);
-                break;
-            case "down":
-                b[1] = true;
-                robot.downn.set(true);
-                break;
-            case "left":
-                b[2] = true;
-                robot.leftt.set(true);
-                break;
-            case "right":
-                b[3] = true;
-                robot.rightt.set(true);
-                break;
-            case "switch":
-                b[4] = true;
-                robot.switchh.set(true);
-                break;
-            case "attack":
-                b[5] = true;
-                robot.attackk.set(true);
-                break;
-            case "move":
-                b[6] = true;
-                robot.movee.set(true);
-                break;
-            case "drop":
-                System.out.println("drop");
-                b[7] = true;
-                robot.dropp.set(true);
-        }
-    }
-    for (int j = 0; j < b.length; j++)
-    {
-        if(!b[j]) robot.dict.get(j).set(false);
-    }
-}
+//public void auto(ArrayList<String> commands)
+//{
+//    boolean[] b = new boolean[]{false, false, false, false, false, false, false};
+//    for(String command:commands)
+//    {
+//        switch (command)
+//        {
+//            case "up":
+//                b[0] = true;
+//                robot.upp.set(true);
+//                break;
+//            case "down":
+//                b[1] = true;
+//                robot.downn.set(true);
+//                break;
+//            case "left":
+//                b[2] = true;
+//                robot.leftt.set(true);
+//                break;
+//            case "right":
+//                b[3] = true;
+//                robot.rightt.set(true);
+//                break;
+//            case "switch":
+//                b[4] = true;
+//                robot.switchh.set(true);
+//                break;
+//            case "attack":
+//                b[5] = true;
+//                robot.attackk.set(true);
+//                break;
+//            case "move":
+//                b[6] = true;
+//                robot.movee.set(true);
+//                break;
+//            case "drop":
+//                System.out.println("drop");
+//                b[7] = true;
+//                robot.dropp.set(true);
+//        }
+//    }
+//    for (int j = 0; j < b.length; j++)
+//    {
+//        if(!b[j]) robot.dict.get(j).set(false);
+//    }
+//}
     public void pressedHandler(KeyEvent event)
     {
         controller1(event, man, map1);
@@ -264,168 +265,7 @@ public void auto(ArrayList<String> commands)
         this.man2 = man2;
 //        statusController2 = new StatusController(man2);
     }
-    public void upp(ObservableValue<? extends Boolean> up, Boolean oldpressed, Boolean newpressed)
-    {
-        if(!newpressed)robot.upp(newpressed);
-//        if(newpressed)
-//        {
-//            if(!robot.frozen.get() && !robot.isJumping)
-//            {
-//                robot.isJumping = true;
-//                robot.jump(15 * MatchstickMan.ratio);
-//            }
-//        }
-//        if(!newpressed)
-//        {
-//
-//        }
-    }
-    public void downn(ObservableValue<? extends Boolean> down, Boolean oldpressed, Boolean newpressed)
-    {
-        if(!newpressed)robot.downn(newpressed);
-//        if(newpressed)
-//        {
-////            System.out.println(" jkd here");
-//            if(!robot.frozen.get() && !robot.isJumping)
-//            {
-//                if(robot.facingRight.get())robot.shield.right();
-//                else robot.shield.left();
-//                if(!robot.shield.showing)robot.statusController.setFrozen(true);
-//                robot.shield.show();
-//                robot.down();
-//                robot.stick.up();
-//            }
-//        }
-//        if(!newpressed)
-//        {
-//            robot.up();
-//            robot.shield.disappear();
-//            robot.stick.down();
-//        }
-    }
-    public void leftt(ObservableValue<? extends Boolean> left, Boolean oldpressed, Boolean newpressed)
-    {
-        if(!newpressed)robot.leftt(newpressed);
-//        if(newpressed)
-//        {
-////            System.out.println("×ó");
-//            if(!robot.frozen.get() && !robot.isMoving)
-//            {
-////                System.out.println("here");
-//                if (robot.isJumping) robot.left(Duration.millis(150));
-//                else robot.left();
-//            }
-//        }
-//        if(!newpressed)
-//        {
-//            robot.stop();
-//        }
-    }
-    public void rightt(ObservableValue<? extends Boolean> right, Boolean oldpressed, Boolean newpressed)
-    {
-        if(!newpressed)robot.rightt(newpressed);
-//        if(newpressed)
-//        {
-//            if(!robot.frozen.get() && !robot.isMoving)
-//            {
-//                if(robot.isJumping) robot.right(Duration.millis(150));
-//                else robot.right();
-//            }
-//        }
-//        if(!newpressed)
-//        {
-//            robot.stop();
-//        }
-    }
-    public void switchh(ObservableValue<? extends Boolean> switchh, Boolean oldpressed, Boolean newpressed)
-    {
-        if(!newpressed)robot.switchh(newpressed);
-//        if(newpressed)
-//        {
-//            if(!robot.frozen.get())
-//            {
-//                boolean flag = true;
-//                for(Ball ball:robot.balls)
-//                {
-//                    if(ball.isAttacking || ball.isRecovering)flag = false;
-//                }
-//                for(Ball ball:robot.balls)
-//                {
-//                    if(flag)
-//                    {
-//                        if (!robot.getChildren().contains(ball) && !robot.platform.getChildren().contains(ball))
-//                            ball.play();
-//                        else ball.stop();
-//                    }
-//                }
-//            }
-//        }
-//        if(!newpressed)
-//        {
-//
-//        }
-    }
-    public void attackk(ObservableValue<? extends Boolean> attack, Boolean oldpressed, Boolean newpressed)
-    {
-        if(!newpressed)robot.attackk(newpressed);
-//        if(newpressed)
-//        {
-//            if(!robot.frozen.get()&&!robot.stick.frozen)
-//            {
-//                Ball.ballsAttack(robot);
-//                if(!robot.isAttacking)robot.attack();
-//            }
-//        }
-//        if(!newpressed)
-//        {
-//
-//        }
-    }
-    public void movee(ObservableValue<? extends Boolean> move, Boolean oldpressed, Boolean newpressed)
-    {
-        if(!newpressed)robot.movee(newpressed);
-//        if(newpressed)
-//        {
-//            if(!robot.frozen.get() && !robot.isJumping)
-//            {
-//                robot.shadowMove.play();
-//            }
-//        }
-//        if(!newpressed)
-//        {
-//
-//        }
-    }
-    public void dropp(ObservableValue<? extends Boolean> drop, Boolean oldpressed, Boolean newpressed)
-    {
-        if(!newpressed)robot.dropp(newpressed);
-//        if(newpressed)
-//        {
-//            if(!robot.frozen.get() && !robot.isJumping)
-//            {
-//                robot.stick.fly();
-//            }
-//        }
-//        if(!newpressed)
-//        {
-//
-//        }
-    }
-    public void rotatee(ObservableValue<? extends Boolean> rotate, Boolean oldpressed, Boolean newpressed)
-    {
-        if(!newpressed)robot.rotatee(newpressed);
-//        if(newpressed)
-//        {
-//            if(!robot.frozen.get() && !robot.isJumping)
-//            {
-//                robot.stick.fly();
-//            }
-//        }
-//        if(!newpressed)
-//        {
-//
-//        }
-    }
+
 }
 
 

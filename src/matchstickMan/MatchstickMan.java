@@ -528,7 +528,7 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
     {
         platform = bp;
     }
-    public void toPlayer(boolean mang)
+    public void toPlayer()
     {
         player = new robot.Player();
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(0.1), event ->

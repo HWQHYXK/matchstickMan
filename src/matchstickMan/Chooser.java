@@ -88,11 +88,13 @@ public class Chooser extends Application
         primaryStage.setScene(scene);
         primaryStage.show();
         /*-----------------------------------------------------------*/
-        imageView.setOnMouseClicked(event ->//normal
+        rectangle.setOnMouseClicked(event ->//normal
         {
-            new Platform().display(primaryStage, "normal");
+            borderPane.getChildren().clear();
+            primaryStage.close();
+            new Platform().display(primaryStage, "EVE");
         });
-        imageView1.setOnMouseClicked(event ->//hard
+        rectangle1.setOnMouseClicked(event ->//hard
         {
 
         });
@@ -109,11 +111,17 @@ public class Chooser extends Application
         });
         simple1.setOnAction(event ->
         {
-
+            borderPane.getChildren().clear();
+            primaryStage.close();
+//            Platform.main(null);
+            new Platform().display(primaryStage, "hard");
         });
         hard1.setOnAction(event ->
         {
-
+            borderPane.getChildren().clear();
+            primaryStage.close();
+//            Platform.main(null);
+            new Platform().display(primaryStage, "fuck");
         });
         PVP.setOnAction(event ->
         {
