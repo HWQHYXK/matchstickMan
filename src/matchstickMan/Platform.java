@@ -4,22 +4,15 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import mangFu.Info;
 
 import java.util.ArrayList;
 
@@ -37,6 +30,7 @@ public class Platform extends Application
     public MotionController mc = new MotionController(man);
     public ProgressBar hp = new ProgressBar();
     public ProgressBar hp2 = new ProgressBar();
+    public static Stage stage;
     /*--------------------------------------------------------------------------------------------------*/
 //    public Line hor = new Line(0,6.5*MatchstickMan.ratio+height/2,width,6.5*MatchstickMan.ratio+height/2);
     public void start(Stage primaryStage)
@@ -45,6 +39,7 @@ public class Platform extends Application
     }
     public void display(Stage primaryStage, String mode)
     {
+        stage = primaryStage;
         primaryStage.centerOnScreen();
         scene.setOnKeyPressed(mc::pressedHandler);
         scene.setOnKeyReleased(mc::releasedHandler);
@@ -184,69 +179,17 @@ public class Platform extends Application
         man.setOpponent(robot);
         robot.setOpponent(man);
         hp2.progressProperty().bind(robot.hp.divide(100));
-        man.toPlayer(!(r instanceof Archimage));
-        robot.toPlayer(!(r instanceof Archimage));
+        man.toPlayer(!(r instanceof Warrior));
+        robot.toPlayer(!(r instanceof Warrior));
+        robot.transfere(mc);
     }
     public void normal()
     {
         PVE(new Robot(false, mc, Color.INDIANRED));
 //        robot.shining.play(robot.skin);
-        transfere(true);
     }
     public void archimage()
     {
-        PVE(new Archimage(false,mc,Color.INDIANRED));
-        transfere(false);
-    }
-    public void transfere(boolean mang)
-    {
-        mangFu.Info info;
-        mangFu.Main main;
-        if(mang)
-        {
-            info = new mangFu.Info(robot.player1, man.player1);
-            main = new mangFu.Main();
-        }
-        else
-        {
-            info = new archimage.Info(robot.player2, man.player2);
-            main = new archimage.Main();
-        }
-        Timeline t = new Timeline(new KeyFrame(Duration.millis(10), event ->
-        {
-            double[][] ball=new double[4][2];
-            for(int i=0;i<man.balls.size();i++)for(int j=0;j<2;j++)
-            {
-                if(man.balls.get(i).isAttacking&&!man.balls.get(i).aimed&&man.balls.get(i).isVisible())
-                {
-                    try {
-                        ball[i][0] = man.balls.get(i).getLayoutX();
-                        ball[i][1] = man.balls.get(i).getLayoutY();
-                    }catch (Exception e)
-                    {
-                        ball[i][0] = 0x7fffffff;
-                        ball[i][1] = 0x7fffffff;
-                    }
-                }
-                else
-                {
-                    ball[i][0] = 0x7fffffff;
-                    ball[i][1] = 0x7fffffff;
-                }
-            }
-            info.init(ball);
-            ArrayList<String> strings;
-            if(mang)strings = main.operate(info);
-            else strings = ((archimage.Main)main).operate((archimage.Info)info);
-//            if(!last.equals(strings)&&!strings.isEmpty())
-//            {
-                for(int i=0;i<strings.size();i++)System.out.print(strings.get(i)+" ");
-                System.out.println();
-                last = strings;
-//            }
-            mc.auto(strings, 0);
-        }));
-        t.setCycleCount(Timeline.INDEFINITE);
-        t.play();
+        PVE(new Warrior(false,mc,Color.INDIANRED));
     }
 }

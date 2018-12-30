@@ -1,15 +1,11 @@
 package matchstickMan;
 
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
 public class Robot extends MatchstickMan implements ChangeListener<Boolean>
@@ -17,6 +13,7 @@ public class Robot extends MatchstickMan implements ChangeListener<Boolean>
     public BooleanProperty upp = new SimpleBooleanProperty(),downn = new SimpleBooleanProperty(),leftt= new SimpleBooleanProperty(),rightt = new SimpleBooleanProperty(),
             switchh = new SimpleBooleanProperty(),attackk = new SimpleBooleanProperty(),movee= new SimpleBooleanProperty(),dropp = new SimpleBooleanProperty(), rotatee = new SimpleBooleanProperty(),
             shinningg= new SimpleBooleanProperty();
+    protected Timeline transfere;
     ArrayList<BooleanProperty> dict = new ArrayList<>();
     public Robot(boolean facingRight, MotionController mc, Color skin)
     {
@@ -53,6 +50,10 @@ public class Robot extends MatchstickMan implements ChangeListener<Boolean>
         movee.addListener(mc::movee);
         dropp.addListener(mc::dropp);
         rotatee.addListener(mc::rotatee);
+    }
+    public void transfere(MotionController mc)
+    {
+
     }
 }
 
