@@ -69,7 +69,7 @@ public class Archimage
         }
         else {
             if (!now.A.isrotate) s.add("rotate");
-            else s = move(rand.nextDouble() > 0.4 * state + 0.4 * situation);
+            else s = move(rand.nextDouble() > 0.3618 * state + 0.3618 * situation);
         }
 
         return s;
@@ -224,8 +224,8 @@ public class Archimage
     private ArrayList<String> ballattack() {
         ArrayList<String> s=new ArrayList<>();
         boolean right=now.B.x>now.A.x;;
-        if(now.A.facingright && !right) s.add("right");
-        else if(!now.A.facingright && right) s.add("left");
+        if(!now.A.facingright && right) s.add("right");
+        else if(now.A.facingright && !right) s.add("left");
         s.add("attack");
         return s;
     }

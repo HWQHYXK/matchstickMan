@@ -194,8 +194,8 @@ public class Warrior {
     private ArrayList<String> ballattack(Info now) {
         ArrayList<String> s=new ArrayList<>();
         boolean right=now.B.x>now.A.x;;
-        if(now.A.facingright && !right) s.add("right");
-        else if(!now.A.facingright && right) s.add("left");
+        if(!now.A.facingright && right) s.add("right");
+        else if(now.A.facingright && !right) s.add("left");
         s.add("attack");
         return s;
     }
