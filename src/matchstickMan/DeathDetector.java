@@ -6,8 +6,10 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class DeathDetector implements ChangeListener<Number>
@@ -57,7 +59,14 @@ public class DeathDetector implements ChangeListener<Number>
             timeline.play();
             man.frozen.setValue(true);
         }
-        if((double)newHP <= 0)man.frozen.setValue(true);
+        if((double)newHP <= 0)
+        {
+            man.frozen.setValue(true);
+            Button restart = new Button("RESTART");
+            restart.setTextFill(Color.RED);
+            restart.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
+            man.platform.setCenter(new Button());
+        }
     }
     public DeathDetector(MatchstickMan man)
     {
