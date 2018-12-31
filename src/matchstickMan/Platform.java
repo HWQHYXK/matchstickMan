@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class Platform extends Application
     public void display(Stage primaryStage, String mode)
     {
         stage = primaryStage;
+        primaryStage.initStyle(StageStyle.UTILITY);
         primaryStage.centerOnScreen();
         Label label = new Label("3");
         label.setStyle("-fx-font-size: 100");
