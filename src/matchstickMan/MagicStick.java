@@ -166,8 +166,8 @@ public class MagicStick extends ImageView
         if(!isRotating)
         {
             ImageView stickEffect = new ImageView("matchstickMan/image/stickEffect.gif");
-            stickEffect.setScaleX(1.9);
-            stickEffect.setScaleY(1.9);
+            stickEffect.setScaleX(2.2);
+            stickEffect.setScaleY(2.2);
             new Timeline(new KeyFrame(Duration.seconds(3), event ->
             {
                 host.getChildren().remove(stickEffect);
@@ -178,15 +178,15 @@ public class MagicStick extends ImageView
                 int i;
                 if (host.facingRight.get())
                 {
-                    stickEffect.layoutXProperty().bind(layoutXProperty());
-                    stickEffect.layoutYProperty().bind(layoutYProperty().add(-100));
+                    stickEffect.layoutXProperty().bind(layoutXProperty().add(-30));
+                    stickEffect.layoutYProperty().bind(layoutYProperty().add(-110));
                     if(!host.getChildren().contains(stickEffect))host.getChildren().add(stickEffect);
                     i = 1;
                 }
                 else
                 {
                     stickEffect.layoutXProperty().bind(layoutXProperty().add(-180));
-                    stickEffect.layoutYProperty().bind(layoutYProperty().add(-100));
+                    stickEffect.layoutYProperty().bind(layoutYProperty().add(-110));
                     if(!host.getChildren().contains(stickEffect))host.getChildren().add(stickEffect);
                     i = -1;
                 }

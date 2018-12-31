@@ -179,10 +179,10 @@ public class Archimage extends Robot
         if(strong)
         {
             Random random = new Random();
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(15), event ->
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(13+random.nextDouble()*4), event ->
             {
-                if(random.nextBoolean())summon(0);
-            }), new KeyFrame(Duration.seconds(20), event ->
+                summon(0);
+            }), new KeyFrame(Duration.seconds(10), event ->
             {
                 if(random.nextBoolean()) dragon();
             }));
@@ -190,7 +190,7 @@ public class Archimage extends Robot
             timeline.play();
         }
         Duration duration;
-        if(strong)duration = Duration.millis(10);
+        if(strong)duration = Duration.millis(5);
         else duration = Duration.millis(61.8);
         transfere = new Timeline(new KeyFrame(duration, event ->
         {

@@ -191,7 +191,8 @@ public class Archimage
                 if(rand.nextInt(200) >= dis) return ballattack();
                 return go(false);
             }
-            int tt=(int)(0.6618/situation+0.3382/state)+1;
+            int tt=Math.max((int)(0.6618/situation),(int)(0.3382/state));
+            if(tt<1000000000) tt=(int)(0.6618/situation+0.3382/state);
             if(tt==0 || rand.nextInt(tt)==0) {
                 if(rand.nextDouble()<dis/1000 && !now.B.isdefending) return ballattack();
                 if(dis > 700) return move(false);
