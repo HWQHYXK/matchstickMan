@@ -49,12 +49,13 @@ public class Platform extends Application
             case "simple":
                 initMan(new MatchstickMan(true, Color.ROYALBLUE),false);
                 label.setTextFill(Color.DARKRED);
+                PVE(new Archimage(false,Color.INDIANRED,0));
                 count(label,1);
                 break;
             case "normal":
                 initMan(new MatchstickMan(true, Color.ROYALBLUE),false);
                 label.setTextFill(Color.DARKRED);
-                PVE(new Archimage(false,Color.INDIANRED,false));
+                PVE(new Archimage(false,Color.INDIANRED,1));
                 count(label,1);
                 break;
             case "hard":
@@ -66,7 +67,7 @@ public class Platform extends Application
             case "fuck":
                 initMan(new MatchstickMan(true, Color.ROYALBLUE),true);
                 label.setTextFill(Color.SKYBLUE);
-                PVE(new Archimage(false,Color.INDIANRED,true));
+                PVE(new Archimage(false,Color.INDIANRED,2));
                 count(label,1);
                 break;
             case "PVP":
@@ -76,12 +77,12 @@ public class Platform extends Application
                 count(label,2);
                 break;
             case "EVE":
-                EVE(new Archimage(true,Color.ROYALBLUE,true), new Warrior(false,Color.INDIANRED),false);
+                EVE(new Archimage(true,Color.ROYALBLUE,2), new Warrior(false,Color.INDIANRED),false);
                 label.setTextFill(Color.DARKRED);
                 count(label, 3);
                 break;
             case "EVE2":
-                EVE(new Archimage(true,Color.ROYALBLUE,true), new Archimage(false,Color.INDIANRED,true),true);
+                EVE(new Archimage(true,Color.ROYALBLUE,2), new Archimage(false,Color.INDIANRED,2),true);
                 label.setTextFill(Color.SKYBLUE);
                 count(label,3);
         }

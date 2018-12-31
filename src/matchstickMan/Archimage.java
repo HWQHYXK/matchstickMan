@@ -16,10 +16,11 @@ import java.util.Random;
 
 public class Archimage extends Robot
 {
-    private boolean strong,dragonRight;
+    private boolean dragonRight;
+    private int mode;
     private ImageView dragonView = new ImageView();
     private BooleanProperty superFrozen = new SimpleBooleanProperty();
-    public Archimage(boolean facingRight, Color skin, boolean strong)
+    public Archimage(boolean facingRight, Color skin, int mode)
     {
         super(facingRight, skin);
         superFrozen.set(false);
@@ -38,7 +39,7 @@ public class Archimage extends Robot
                 transfere.play();
             }
         });
-        this.strong = strong;
+        this.mode = mode;
     }
     private class OnFinished implements EventHandler<ActionEvent>
     {
@@ -176,7 +177,7 @@ public class Archimage extends Robot
         robot.Archimage main;
         info = new robot.Info(this.player, opponent.player);
         main = new robot.Archimage();
-        if(strong)
+        if(mode == 2)
         {
             Random random = new Random();
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(13+random.nextDouble()*4), event ->
@@ -190,8 +191,9 @@ public class Archimage extends Robot
             timeline.play();
         }
         Duration duration;
-        if(strong)duration = Duration.millis(5);
-        else duration = Duration.millis(61.8);
+        if(mode == 2)duration = Duration.millis(8);
+        else if (mode == 1) duration = Duration.millis(61.8);
+        else duration = Duration.millis(150);
         transfere = new Timeline(new KeyFrame(duration, event ->
         {
             if(opponent.hp.get()<=0&&opponent.frozen.get())transfere.stop();
@@ -216,7 +218,9 @@ public class Archimage extends Robot
                 }
             }
             info.init(ball);
-            ArrayList<String> strings = main.operate(info, strong);
+            ArrayList<String> strings;
+            if(mode == 2)strings = main.operate(info, true);
+            else strings = main.operate(info, false);
 //            if(!last.equals(strings)&&!strings.isEmpty())
 //            {
             for(int i=0;i<strings.size();i++)System.out.print(strings.get(i)+" ");
@@ -226,5 +230,22 @@ public class Archimage extends Robot
         }));
         transfere.setCycleCount(Timeline.INDEFINITE);
         transfere.play();
+    }
+    @Override
+    public void down()
+    {
+        shield.showing = true;
+        down = new Timeline();
+    }
+    @Override
+    public void up()
+    {
+        KeyFrame keyFrame = new KeyFrame(Duration.ZERO);
+        if(shield.showing)keyFrame = new KeyFrame(Duration.millis(100), event ->
+        {
+            if(hp.get()>=0)this.frozen.set(false);
+        });
+        up = new Timeline(keyFrame);
+        up.play();
     }
 }

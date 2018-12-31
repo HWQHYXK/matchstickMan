@@ -104,6 +104,9 @@ public class Chooser extends Application
         simple.setOnAction(event ->
         {
 
+            borderPane.getChildren().clear();
+            primaryStage.close();
+            new Platform().display(primaryStage, "simple");
         });
         hard.setOnAction(event ->
         {
