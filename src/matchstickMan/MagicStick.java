@@ -25,8 +25,8 @@ public class MagicStick extends ImageView
     public MagicStick(MatchstickMan man)
     {
         super();
-        if(man.skin.equals(Color.INDIANRED))setImage(new Image("/matchStickMan/image/stick3.png"));
-        else setImage(new Image("/matchStickMan/image/stick4.png"));
+        if(man.skin.equals(Color.INDIANRED))setImage(new Image("matchstickMan/image/stick1.png"));
+        else setImage(new Image("matchstickMan/image/stick2.png"));
         this.setScaleX(0.3);
         this.setScaleY(0.3);
 //        setRotate(15);
