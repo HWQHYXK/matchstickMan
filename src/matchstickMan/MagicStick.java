@@ -165,7 +165,9 @@ public class MagicStick extends ImageView
     {
         if(!isRotating)
         {
-            ImageView stickEffect = new ImageView("matchstickMan/image/stickEffect.gif");
+            ImageView stickEffect;
+            if(host.skin.equals(Color.INDIANRED))stickEffect = new ImageView("matchstickMan/image/stickEffect2.gif");
+            else stickEffect = new ImageView("matchstickMan/image/stickEffect1.gif");
             stickEffect.setScaleX(2.2);
             stickEffect.setScaleY(2.2);
             new Timeline(new KeyFrame(Duration.seconds(3), event ->

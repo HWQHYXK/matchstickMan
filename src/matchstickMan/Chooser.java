@@ -97,48 +97,48 @@ public class Chooser extends Application
         {
             borderPane.getChildren().clear();
             primaryStage.close();
-            new Platform().display(primaryStage, "EVE");
+            new Platform().display(new Stage(), "EVE");
         });
         rectangle1.setOnMouseClicked(event ->//hard
         {
 
             borderPane.getChildren().clear();
             primaryStage.close();
-            new Platform().display(primaryStage, "EVE2");
+            new Platform().display(new Stage(), "EVE2");
         });
         simple.setOnAction(event ->
         {
 
             borderPane.getChildren().clear();
             primaryStage.close();
-            new Platform().display(primaryStage, "simple");
+            new Platform().display(new Stage(), "simple");
         });
         hard.setOnAction(event ->
         {
             borderPane.getChildren().clear();
             primaryStage.close();
 //            Platform.main(null);
-            new Platform().display(primaryStage, "normal");
+            new Platform().display(new Stage(), "normal");
         });
         simple1.setOnAction(event ->
         {
             borderPane.getChildren().clear();
             primaryStage.close();
 //            Platform.main(null);
-            new Platform().display(primaryStage, "hard");
+            new Platform().display(new Stage(), "hard");
         });
         hard1.setOnAction(event ->
         {
             borderPane.getChildren().clear();
             primaryStage.close();
 //            Platform.main(null);
-            new Platform().display(primaryStage, "fuck");
+            new Platform().display(new Stage(), "fuck");
         });
         PVP.setOnAction(event ->
         {
             borderPane.getChildren().clear();
             primaryStage.close();
-            new Platform().display(primaryStage, "PVP");
+            new Platform().display(new Stage(), "PVP");
 //            new Platform().display(primaryStage, "PVP");
         });
     }
