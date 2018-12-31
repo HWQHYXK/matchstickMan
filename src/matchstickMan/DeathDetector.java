@@ -10,7 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 public class DeathDetector implements ChangeListener<Number>
 {
@@ -70,7 +73,13 @@ public class DeathDetector implements ChangeListener<Number>
             restart.setOnAction(event ->
             {
                 Platform.stage.close();
-                new Chooser().display(Platform.stage);
+                try {
+                    Runtime.getRuntime().exec("java -jar restart.jar");
+                }
+                catch (IOException e)
+                {
+//                    Chooser.display();
+                }
             });
             man.platform.setCenter(restart);
         }
