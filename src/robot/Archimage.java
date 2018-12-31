@@ -80,7 +80,7 @@ public class Archimage
             if(!now.A.isrotate) s.add("rotate");
             else return go(false);
         }
-        else if(dis > 900+rand.nextInt(200)) {
+        else if(dis > 888+rand.nextInt(200)) {
             if(dis<1300 && rand.nextInt(400) < 1300-dis) return move(true);
             else if(dis>1300 && rand.nextInt(250) > 1550-dis) s.add("drop");
             else s = go(rand.nextDouble() > 0.1618 * state + 0.1618 * situation);
@@ -114,8 +114,14 @@ public class Archimage
         ArrayList<String> s=new ArrayList<>();
 
         if(!now.A.isdrop) {
-            int tt = (int) (0.618 / situation + 0.382 / state);
-            if (tt == 0 || rand.nextInt(tt) == 0) return s;
+            double tt = (0.618 * situation + 0.382 * state);
+            tt = tt * tt; tt /= 2;
+            if (situation > 1e-29 && rand.nextDouble() < tt ) {
+                //System.out.println("tt = "+tt);
+                //System.out.println("state = "+state);
+                //System.out.println("situation = "+situation);
+                return s;
+            }
         }
 
         boolean go=true,move=true,defend=true;
@@ -147,7 +153,8 @@ public class Archimage
         if(now.B.hplocked)  {
             if(!strong) return s;
             double dis=Math.abs(calc.get_pos()-now.A.x);
-            if(calc.get_ballSpeed()*(calc.get_time()-nowtime) > dis) return ballattack();
+            double tt=calc.get_ballSpeed()*(calc.get_time()-nowtime);
+            if(tt > dis) return ballattack();//TODO 判断是否已经在攻击
         }
         if(now.B.isdefending) {
             double dis=Math.abs(now.A.x-now.B.x);
