@@ -104,7 +104,7 @@ public class Warrior {
                 if(rand.nextInt(200)<dis) return ballattack();
                 return go(false);
             }
-            if(dis > 888+66*now.B.ballnumber+rand.nextInt((int)((1-state)*236))) {
+            if(dis > 888+66*now.B.ballnumber+rand.nextInt((int)((1-state)*235)+1)) {
                 s.add("drop");
                 return s;
             }
