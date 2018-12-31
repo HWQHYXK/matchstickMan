@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="matchstickMan:jar">
+    <output-path>$PROJECT_DIR$/</output-path>
+    <root id="archive" name="matchstickMan.jar">
+      <element id="module-output" name="matchstickMan" />
+      <element id="archive" name="restart.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

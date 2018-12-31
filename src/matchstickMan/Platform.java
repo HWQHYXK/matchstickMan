@@ -42,41 +42,48 @@ public class Platform extends Application
         stage = primaryStage;
         primaryStage.centerOnScreen();
         Label label = new Label("3");
-        label.setTextFill(Color.DARKRED);
         label.setStyle("-fx-font-size: 100");
         border.setCenter(label);
         switch (mode)
         {
             case "simple":
-                initMan(new MatchstickMan(true, Color.ROYALBLUE));
+                initMan(new MatchstickMan(true, Color.ROYALBLUE),false);
+                label.setTextFill(Color.DARKRED);
+                PVE(new Archimage(false,Color.INDIANRED,0));
                 count(label,1);
                 break;
             case "normal":
-                initMan(new MatchstickMan(true, Color.ROYALBLUE));
-                PVE(new Archimage(false,Color.INDIANRED,false));
+                initMan(new MatchstickMan(true, Color.ROYALBLUE),false);
+                label.setTextFill(Color.DARKRED);
+                PVE(new Archimage(false,Color.INDIANRED,1));
                 count(label,1);
                 break;
             case "hard":
-                initMan(new MatchstickMan(true, Color.ROYALBLUE));
+                initMan(new MatchstickMan(true, Color.ROYALBLUE),true);
+                label.setTextFill(Color.SKYBLUE);
                 PVE(new Warrior(false,Color.INDIANRED));
                 count(label,1);
                 break;
             case "fuck":
-                initMan(new MatchstickMan(true, Color.ROYALBLUE));
-                PVE(new Archimage(false,Color.INDIANRED,true));
+                initMan(new MatchstickMan(true, Color.ROYALBLUE),true);
+                label.setTextFill(Color.SKYBLUE);
+                PVE(new Archimage(false,Color.INDIANRED,2));
                 count(label,1);
                 break;
             case "PVP":
-                initMan(new MatchstickMan(true, Color.ROYALBLUE));
+                initMan(new MatchstickMan(true, Color.ROYALBLUE),false);
+                label.setTextFill(Color.DARKRED);
                 PVP();
                 count(label,2);
                 break;
             case "EVE":
-                EVE(new Archimage(true,Color.ROYALBLUE,true), new Warrior(false,Color.INDIANRED));
+                EVE(new Archimage(true,Color.ROYALBLUE,2), new Warrior(false,Color.INDIANRED),false);
+                label.setTextFill(Color.DARKRED);
                 count(label, 3);
                 break;
             case "EVE2":
-                EVE(new Archimage(true,Color.ROYALBLUE,false), new Archimage(false,Color.INDIANRED,false));
+                EVE(new Archimage(true,Color.ROYALBLUE,2), new Archimage(false,Color.INDIANRED,2),true);
+                label.setTextFill(Color.SKYBLUE);
                 count(label,3);
         }
         primaryStage.setScene(scene);
@@ -86,7 +93,7 @@ public class Platform extends Application
     {
         launch(args);
     }
-    public void pre()
+    public void pre(boolean hard)
     {
         if(mc != null)
         {
@@ -100,20 +107,23 @@ public class Platform extends Application
         hp2.setPrefSize(400,30);
         HBox ghp = new HBox(hp, hp2);
         ghp.setAlignment(Pos.TOP_CENTER);
-        border.setBackground(new Background(new BackgroundImage(new Image("/matchstickMan/image/background1.gif"),
+        Image image;
+        if(hard)image = new Image("matchstickMan/image/hardBackground.gif");
+        else image = new Image("/matchstickMan/image/background1.gif");
+        border.setBackground(new Background(new BackgroundImage(image,
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1,1,true,true,false,false))));
         ghp.setSpacing(width/5);
         border.setTop(ghp);
     }
-    public void initMan(MatchstickMan man)
+    public void initMan(MatchstickMan man, boolean hard)
     {
 //        Button start = new Button("Press or Enter!");
 //        start.setPrefWidth(100);
 //        start.setPrefHeight(100);
         this.man = man;
         mc = new MotionController(man);
-        pre();
+        pre(hard);
         man.setLayoutX(30);
         man.setLayoutY(field);
         border.getChildren().add(man);
@@ -196,7 +206,7 @@ public class Platform extends Application
     {
         robot = r;
 //        mc.setRobot(robot);
-        robot.setLayoutX(width-100);
+        robot.setLayoutX(width-30);
         robot.setLayoutY(field);
         border.getChildren().add(robot);
         robot.setPlatform(border);
@@ -214,9 +224,9 @@ public class Platform extends Application
         robot.toPlayer();
         robot.transfere();
     }
-    public void EVE(Robot gr, Robot br)
+    public void EVE(Robot gr, Robot br, boolean fire)
     {
-        pre();
+        pre(fire);
         goodRobot = gr;
         robot = br;
 //        mc.setRobot(robot);

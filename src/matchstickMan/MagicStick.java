@@ -25,8 +25,8 @@ public class MagicStick extends ImageView
     public MagicStick(MatchstickMan man)
     {
         super();
-        if(man.skin.equals(Color.INDIANRED))setImage(new Image("/matchStickMan/image/stick3.png"));
-        else setImage(new Image("/matchStickMan/image/stick4.png"));
+        if(man.skin.equals(Color.INDIANRED))setImage(new Image("matchstickMan/image/stick1.png"));
+        else setImage(new Image("matchstickMan/image/stick2.png"));
         this.setScaleX(0.3);
         this.setScaleY(0.3);
 //        setRotate(15);
@@ -155,7 +155,6 @@ public class MagicStick extends ImageView
                 {
                     left();
                 }
-//                host.statusController.setFrozen(false);
             })).play();
         }, new KeyValue(this.yProperty(),host.getLayoutY()+Y-4*MatchstickMan.ratio));
         down = new Timeline(keyFrame);
@@ -166,14 +165,32 @@ public class MagicStick extends ImageView
     {
         if(!isRotating)
         {
+            ImageView stickEffect = new ImageView("matchstickMan/image/stickEffect.gif");
+            stickEffect.setScaleX(2.2);
+            stickEffect.setScaleY(2.2);
+            new Timeline(new KeyFrame(Duration.seconds(3), event ->
+            {
+                host.getChildren().remove(stickEffect);
+            })).play();
             isRotating = true;
-
             rotate = new Timeline(new KeyFrame(Duration.millis(200), event ->
             {
                 int i;
-                if (host.facingRight.get()) i = 1;
-                else i = -1;
-                //            System.out.println(host.opponent.getLayoutX()+i*2*MatchstickMan.ratio-host.getLayoutX());
+                if (host.facingRight.get())
+                {
+                    stickEffect.layoutXProperty().bind(layoutXProperty().add(-30));
+                    stickEffect.layoutYProperty().bind(layoutYProperty().add(-110));
+                    if(!host.getChildren().contains(stickEffect))host.getChildren().add(stickEffect);
+                    i = 1;
+                }
+                else
+                {
+                    stickEffect.layoutXProperty().bind(layoutXProperty().add(-180));
+                    stickEffect.layoutYProperty().bind(layoutYProperty().add(-110));
+                    if(!host.getChildren().contains(stickEffect))host.getChildren().add(stickEffect);
+                    i = -1;
+                }
+                //System.out.println(host.opponent.getLayoutX()+i*2*MatchstickMan.ratio-host.getLayoutX());
                 if (Math.abs(host.opponent.getLayoutX() - i * 2.5 * MatchstickMan.ratio - host.getLayoutX()) < 6 * MatchstickMan.ratio)
                 {
                     if(host.opponent.shield.showing)
@@ -228,6 +245,7 @@ public class MagicStick extends ImageView
             rotate.setOnFinished(event ->
             {
                 isRotating = false;
+                host.getChildren().remove(stickEffect);
                 this.setY(Y);
                 if (host.facingRight.get())
                 {

@@ -23,11 +23,16 @@ public class Chooser extends Application
     public void start(Stage primaryStage)
     {
         primaryStage.initStyle(StageStyle.TRANSPARENT);
-        display(primaryStage);
+        display();
     }
-
-    public void display(Stage primaryStage)
+    public static void display()
     {
+        Stage primaryStage = new Stage();
+        try {
+            primaryStage.initStyle(StageStyle.TRANSPARENT);
+        }finally {
+
+        }
         BorderPane borderPane = new BorderPane();
         HBox hBox = new HBox(100);
         ImageView imageView = new ImageView("matchstickMan/image/background1.gif");
@@ -104,6 +109,9 @@ public class Chooser extends Application
         simple.setOnAction(event ->
         {
 
+            borderPane.getChildren().clear();
+            primaryStage.close();
+            new Platform().display(primaryStage, "simple");
         });
         hard.setOnAction(event ->
         {

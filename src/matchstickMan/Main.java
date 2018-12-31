@@ -22,15 +22,15 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 public class Main extends Application
 {
 //    public static Stage stage;
-    int i = 0;
-    Stage stage;
+    private int i = 0;
     @Override
-    public void start(Stage primaryStage) throws java.lang.Exception
+    public void start(Stage primaryStage)
     {
 //        Parent parent = FXMLLoader.load(getClass().getResource("prompt.fxml"));
 //        primaryStage.initStyle(StageStyle.TRANSPARENT);
@@ -76,7 +76,12 @@ public class Main extends Application
                 {
                     borderPane.getChildren().clear();
                     primaryStage.close();
-                    new Chooser().display(primaryStage);
+                    try {
+                        Runtime.getRuntime().exec("java -jar restart.jar");
+                    }catch (IOException e)
+                    {
+                        Chooser.display();
+                    }
                 });
                 hBox.getChildren().add(button);
                 continue;
