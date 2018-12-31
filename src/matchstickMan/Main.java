@@ -76,12 +76,7 @@ public class Main extends Application
                 {
                     borderPane.getChildren().clear();
                     primaryStage.close();
-                    try {
-                        Runtime.getRuntime().exec("java -jar restart.jar");
-                    }catch (IOException e)
-                    {
-                        Chooser.display();
-                    }
+                    Chooser.display();
                 });
                 hBox.getChildren().add(button);
                 continue;
