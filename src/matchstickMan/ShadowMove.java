@@ -13,6 +13,7 @@ import java.util.Random;
 
 public class ShadowMove implements Skill
 {
+    public boolean isCanceled = true;
     public boolean isMoving = false;
     public boolean enabled = false;
     MatchstickMan man;
@@ -48,61 +49,65 @@ public class ShadowMove implements Skill
     @Override
     public void play()
     {
-        isMoving = true;
-        double x = man.getLayoutX();
-        KeyValue keyValue;
-        double distance = 20*MatchstickMan.ratio;
-        if(man.motionStatus == 1)
+        if(isCanceled)
         {
-//            preAnimation();
-            man.setEffect(new Bloom(0.1));
-            man.statusController.setHPLocked(true);
-            man.statusController.setFrozen(true);
-//            man.setLayoutX(man.leftBorder);
-            if(x+distance<man.rightBorder)keyValue = new KeyValue(man.layoutXProperty(), x+distance);
-            else keyValue = new KeyValue(man.layoutXProperty(), man.rightBorder);
-            if(man instanceof Archimage)timeline = new Timeline(new KeyFrame(Duration.millis(166), keyValue));//200ms
-            else timeline = new Timeline(new KeyFrame(Duration.millis(200), keyValue));
-            timeline.setCycleCount(1);
-            timeline.setOnFinished(event ->
+            isMoving = true;
+            double x = man.getLayoutX();
+            KeyValue keyValue;
+            double distance = 20 * MatchstickMan.ratio;
+            if (man.facingRight.get())
             {
+//            preAnimation();
+                man.setEffect(new Bloom(0.1));
+                man.statusController.setHPLocked(true);
+                man.statusController.setFrozen(true);
+//            man.setLayoutX(man.leftBorder);
+                if (x + distance < man.rightBorder) keyValue = new KeyValue(man.layoutXProperty(), x + distance);
+                else keyValue = new KeyValue(man.layoutXProperty(), man.rightBorder);
+                if (man instanceof Archimage)
+                    timeline = new Timeline(new KeyFrame(Duration.millis(166), keyValue));//200ms
+                else timeline = new Timeline(new KeyFrame(Duration.millis(200), keyValue));
+                timeline.setCycleCount(1);
+                timeline.setOnFinished(event ->
+                {
 //                man.setLayoutX((man.rightBorder-man.leftBorder)*new Random().nextDouble()+man.leftBorder);
 //                if(x+distance<man.rightBorder)man.setLayoutX(x+distance);
 //                else man.setLayoutX(man.rightBorder);
-                man.statusController.setHPLocked(false);
-                man.statusController.setFrozen(false);
-                man.setEffect(null);
-                isMoving = false;
+                    man.statusController.setHPLocked(false);
+                    man.statusController.setFrozen(false);
+                    man.setEffect(null);
+                    isMoving = false;
 //                if(man.shining.enabled)man.shining.stop();
-            });
-            timeline.setDelay(Duration.millis(50));
-            timeline.play();
-        }
-        else if(man.motionStatus == -1)
-        {
-//            preAnimation();
-            man.setEffect(new Bloom(0.1));
-            man.statusController.setHPLocked(true);
-            man.statusController.setFrozen(true);
-//            man.setLayoutX(man.rightBorder);
-            if(x-distance>man.leftBorder)keyValue = new KeyValue(man.layoutXProperty(), x-distance);
-            else keyValue = new KeyValue(man.layoutXProperty(), man.leftBorder);
-            if(man instanceof Archimage)timeline2 = new Timeline(new KeyFrame(Duration.millis(166), keyValue));//200ms
-            else timeline2 = new Timeline(new KeyFrame(Duration.millis(200), keyValue));
-            timeline2.setCycleCount(1);
-            timeline2.setOnFinished(event ->
+                });
+                timeline.setDelay(Duration.millis(50));
+                timeline.play();
+            } else
             {
+//            preAnimation();
+                man.setEffect(new Bloom(0.1));
+                man.statusController.setHPLocked(true);
+                man.statusController.setFrozen(true);
+//            man.setLayoutX(man.rightBorder);
+                if (x - distance > man.leftBorder) keyValue = new KeyValue(man.layoutXProperty(), x - distance);
+                else keyValue = new KeyValue(man.layoutXProperty(), man.leftBorder);
+                if (man instanceof Archimage)
+                    timeline2 = new Timeline(new KeyFrame(Duration.millis(166), keyValue));//200ms
+                else timeline2 = new Timeline(new KeyFrame(Duration.millis(200), keyValue));
+                timeline2.setCycleCount(1);
+                timeline2.setOnFinished(event ->
+                {
 //                man.setLayoutX((man.rightBorder-man.leftBorder)*new Random().nextDouble()+man.leftBorder);
 //                if(x-distance>man.leftBorder)man.setLayoutX(x-distance);
 //                else man.setLayoutX(man.leftBorder);
 //                if(man.shining.enabled)man.shining.stop();
-                man.setEffect(null);
-                man.statusController.setHPLocked(false);
-                man.statusController.setFrozen(false);
-                isMoving = false;
-            });
-            timeline2.setDelay(Duration.millis(50));
-            timeline2.play();
+                    man.setEffect(null);
+                    man.statusController.setHPLocked(false);
+                    man.statusController.setFrozen(false);
+                    isMoving = false;
+                });
+                timeline2.setDelay(Duration.millis(50));
+                timeline2.play();
+            }
         }
     }
 
@@ -110,6 +115,7 @@ public class ShadowMove implements Skill
     public void stop()
     {
         man.setEffect(null);
+        isCanceled = true;
         isMoving = false;
         timeline.stop();
         timeline2.stop();

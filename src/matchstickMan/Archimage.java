@@ -204,7 +204,7 @@ public class Archimage extends Robot
             {
                 if((rightBorder-leftBorder)/2<=opponent.getLayoutX()&&opponent.getLayoutX()<=rightBorder-300)
                 {
-                    if(!opponent.shield.showing||!opponent.shield.right)opponent.statusController.damageHP(10);
+                    if(!opponent.shield.showing||!opponent.shield.right)opponent.hp.set(opponent.hp.get()-10);
                     if(!isDamaging&&opponent.hp.get()>0)
                     {
                         isDamaging = true;
@@ -251,7 +251,7 @@ public class Archimage extends Robot
         }
         Duration duration;
         if(mode == 2)duration = Duration.millis(6.18);
-        else if (mode == 1) duration = Duration.millis(61.8);
+        else if (mode == 1) duration = Duration.millis(9.99);
         else duration = Duration.millis(250);
         transfere = new Timeline(new KeyFrame(duration, event ->
         {

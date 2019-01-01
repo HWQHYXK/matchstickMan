@@ -64,7 +64,7 @@ public class Platform extends Application
                 PVE(new Warrior(false,Color.INDIANRED));
                 count(label,1);
                 break;
-            case "fuck":
+            case "hail":
                 initMan(new MatchstickMan(true, Color.ROYALBLUE),true);
                 label.setTextFill(Color.SKYBLUE);
                 PVE(new Archimage(false,Color.INDIANRED,2));
@@ -77,12 +77,12 @@ public class Platform extends Application
                 count(label,2);
                 break;
             case "EVE":
-                EVE(new Warrior(false,Color.INDIANRED),new Archimage(true,Color.ROYALBLUE,2),false);
+                EVE(new Warrior(true,Color.ROYALBLUE),new Archimage(false,Color.INDIANRED,2),false);
                 label.setTextFill(Color.DARKRED);
                 count(label, 3);
                 break;
             case "EVE2":
-                EVE(new Archimage(true,Color.ROYALBLUE,2), new Archimage(false,Color.INDIANRED,2),true);
+                EVE(new Archimage(true,Color.ROYALBLUE,0), new Archimage(false,Color.INDIANRED,1),true);
                 label.setTextFill(Color.SKYBLUE);
                 count(label,3);
         }

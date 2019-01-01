@@ -19,7 +19,7 @@ public class Warrior extends Robot
         robot.Warrior main;
         info = new robot.Info(this.player, opponent.player);
         main = new robot.Warrior();
-        transfere = new Timeline(new KeyFrame(Duration.millis(10), event ->
+        transfere = new Timeline(new KeyFrame(Duration.millis(8.88), event ->
         {
             if(opponent.hp.get()<=0&&opponent.frozen.get())transfere.stop();
             double[][] ball=new double[4][2];

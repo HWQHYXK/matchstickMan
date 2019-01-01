@@ -609,6 +609,11 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
                 if (this.isJumping) this.left(Duration.millis(150));
                 else this.left();
             }
+            else if(hp.get()>=0&&shadowMove.isMoving)
+            {
+                changeStatus(-1);
+                facingRight.set(false);
+            }
         }
         if(!pressed)
         {
@@ -623,6 +628,11 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
             {
                 if(this.isJumping) this.right(Duration.millis(150));
                 else this.right();
+            }
+            else if(hp.get()>=0&&shadowMove.isMoving)
+            {
+                changeStatus(1);
+                facingRight.set(true);
             }
         }
         if(!pressed)
@@ -670,9 +680,12 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
         {
             if(!this.frozen.get() && !this.isJumping)
             {
+//                shadowMove.isCanceled = false;
                 this.shadowMove.play();
             }
         }
+        else
+            shadowMove.isCanceled = true;
     }
     public void dropp(boolean pressed)
     {

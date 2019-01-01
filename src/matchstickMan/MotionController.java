@@ -49,8 +49,8 @@ public class MotionController
     }
     public void controller1(KeyEvent event, MatchstickMan man, HashMap<String, KeyCode> map)
     {
-        if(!man.frozen.getValue())
-        {
+//        if(!man.frozen.getValue())
+//        {
             if (event.getCode() == map.get("right")) {
                 man.rightt(true);
             }
@@ -89,7 +89,7 @@ public class MotionController
             {
                 man.dropp(true);
             }
-        }
+//        }
     }
     public void controller2(KeyEvent event, MatchstickMan man, HashMap<String, KeyCode> map)
     {

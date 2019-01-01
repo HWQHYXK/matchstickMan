@@ -49,7 +49,7 @@ public class Warrior {
         if((s=attack()).size()!=0) return s;
 
         if(!now.A.isrotate) s.add("rotate");
-        else s=move(rand.nextDouble()>(-0.233*state+situation)*1.11);
+        else s=move(rand.nextDouble()>(-0.233*state+situation)*1.5);
 
         return s;
     }
@@ -119,7 +119,7 @@ public class Warrior {
                 return s;
             }
         }
-        if(now.B.ballnumber<now.A.ballnumber && now.A.hp>=now.B.ballnumber*10) {
+        if(now.B.ballnumber<=now.A.ballnumber && now.A.hp>=now.B.ballnumber*10) {
             int tt=0;//int tt=(int)(0.6618/situation+0.3382/state);
             if(tt==0 || rand.nextInt(tt)==0) {
                 double dis=Math.abs(now.A.x-now.B.x);

@@ -69,7 +69,7 @@ public class Chooser extends Application
         Button simple1 = new Button("Hard");
         simple1.setPrefWidth(150);
         simple1.setStyle("-fx-background-color: Orange; -fx-border-radius: 25;-fx-background-radius: 25;");
-        Button hard1 = new Button("Fuck");
+        Button hard1 = new Button("Hail");
         hard1.setPrefWidth(150);
         hard1.setStyle("-fx-background-color: Red; -fx-border-radius: 25;-fx-background-radius: 25;");
         chooser1.getChildren().addAll(simple1,hard1);
@@ -131,7 +131,7 @@ public class Chooser extends Application
             borderPane.getChildren().clear();
             primaryStage.close();
 //            Platform.main(null);
-            new Platform().display(new Stage(), "fuck");
+            new Platform().display(new Stage(), "hail");
         });
         PVP.setOnAction(event ->
         {
