@@ -538,7 +538,7 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
             {
                 if(ball.aimed||!ball.isVisible())count--;
             }
-            player.init(getLayoutX(), getLayoutY(), hp.get(), count, hpLocked.get(), facingRight.get(), this.getChildren().contains(shield), stick.isRotating, stick.frozen);
+            player.init(getLayoutX(), getLayoutY(), hp.get(), count, hpLocked.get(), facingRight.get(), this.getChildren().contains(shield), stick.isRotating, stick.frozen, isAttacking);
 //            else archimage.init(getLayoutX(), getLayoutY(), hp.get(), balls.size(), hpLocked.get(), facingRight.get(), this.getChildren().contains(shield));
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);

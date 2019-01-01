@@ -86,7 +86,7 @@ public class ShadowMove implements Skill
 //            man.setLayoutX(man.rightBorder);
             if(x-distance>man.leftBorder)keyValue = new KeyValue(man.layoutXProperty(), x-distance);
             else keyValue = new KeyValue(man.layoutXProperty(), man.leftBorder);
-            timeline2 = new Timeline(new KeyFrame(Duration.millis(20), keyValue));
+            timeline2 = new Timeline(new KeyFrame(Duration.millis(20), keyValue));//200ms
             timeline2.setCycleCount(10);
             timeline2.setOnFinished(event ->
             {
