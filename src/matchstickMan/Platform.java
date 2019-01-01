@@ -41,7 +41,6 @@ public class Platform extends Application
     public void display(Stage primaryStage, String mode)
     {
         stage = primaryStage;
-        primaryStage.initStyle(StageStyle.UTILITY);
         primaryStage.centerOnScreen();
         Label label = new Label("3");
         label.setStyle("-fx-font-size: 100");
