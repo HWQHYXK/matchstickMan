@@ -82,7 +82,7 @@ public class Archimage
             if(!now.A.isrotate) s.add("rotate");
             else return go(false);
         }
-        else if(dis > 888+rand.nextInt(200)) {
+        else if(situation<0.1618 || dis > 888+rand.nextInt(200)) {
             if(dis<1300 && rand.nextInt(400) < 1300-dis) return move(true);
             else if(dis>1300 && rand.nextInt(250) > 1550-dis) s.add("drop");
             else s = go(rand.nextDouble() > 0.1618 * state + 0.1618 * situation);
@@ -220,7 +220,7 @@ public class Archimage
         return s;
     }
     private boolean near() {
-        if(Math.abs(now.A.x-now.B.x)<120) return true;
+        if(Math.abs(now.A.x-now.B.x)<200) return true;
         return false;
     }
     private boolean ball_danger() {

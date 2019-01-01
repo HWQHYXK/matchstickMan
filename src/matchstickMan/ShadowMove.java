@@ -61,7 +61,7 @@ public class ShadowMove implements Skill
 //            man.setLayoutX(man.leftBorder);
             if(x+distance<man.rightBorder)keyValue = new KeyValue(man.layoutXProperty(), x+distance);
             else keyValue = new KeyValue(man.layoutXProperty(), man.rightBorder);
-            if(man instanceof Archimage)timeline = new Timeline(new KeyFrame(Duration.millis(200), keyValue));//200ms
+            if(man instanceof Archimage)timeline = new Timeline(new KeyFrame(Duration.millis(166), keyValue));//200ms
             else timeline = new Timeline(new KeyFrame(Duration.millis(200), keyValue));
             timeline.setCycleCount(1);
             timeline.setOnFinished(event ->
@@ -87,7 +87,7 @@ public class ShadowMove implements Skill
 //            man.setLayoutX(man.rightBorder);
             if(x-distance>man.leftBorder)keyValue = new KeyValue(man.layoutXProperty(), x-distance);
             else keyValue = new KeyValue(man.layoutXProperty(), man.leftBorder);
-            if(man instanceof Archimage)timeline2 = new Timeline(new KeyFrame(Duration.millis(200), keyValue));//200ms
+            if(man instanceof Archimage)timeline2 = new Timeline(new KeyFrame(Duration.millis(166), keyValue));//200ms
             else timeline2 = new Timeline(new KeyFrame(Duration.millis(200), keyValue));
             timeline2.setCycleCount(1);
             timeline2.setOnFinished(event ->

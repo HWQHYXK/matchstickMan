@@ -132,6 +132,44 @@ public class MotionController
 //    }
 //    public void setRobot1(Robot robot1){this.robot1 = robot1;}
     public static void auto(Robot robot,ArrayList<String> commands, int i) {
+        if(i==0)
+        {
+            for(String command:commands)
+            {
+                switch (command)
+                {
+                    case "up":
+                        b[0] = true;
+                        break;
+                    case "down":
+                        b[1] = true;
+                        break;
+                    case "left":
+                        b[2] = true;
+                        break;
+                    case "right":
+                        b[3] = true;
+                        break;
+                    case "switch":
+                        b[4] = true;
+                        break;
+                    case "attack":
+                        b[5] = true;
+                        break;
+                    case "move":
+                        b[6] = true;
+                        break;
+                    case "drop":
+                        b[7] = true;
+                    case "rotate":
+                        b[8] = true;
+                }
+            }
+            for (int j = 0; j < b.length; j++)
+            {
+                if(!b[j]) robot.dict.get(j).set(false);
+            }
+        }
         if (i < commands.size()) new Timeline(new KeyFrame(Duration.millis(3), event ->
 //        if (i < commands.size())
         {
@@ -142,42 +180,42 @@ public class MotionController
 //                    robot.upp(true);
                     break;
                 case "down":
-                    b[1] = true;
+//                    b[1] = true;
                     robot.downn.set(true);
                     robot.downn(true);
                     break;
                 case "left":
-                    b[2] = true;
+//                    b[2] = true;
                     robot.leftt.set(true);
                     robot.leftt(true);
                     break;
                 case "right":
-                    b[3] = true;
+//                    b[3] = true;
                     robot.rightt.set(true);
                     robot.rightt(true);
                     break;
                 case "switch":
-                    b[4] = true;
+//                    b[4] = true;
                     if(!robot.frozen.get())robot.switchh.set(true);
                     robot.switchh(true);
                     break;
                 case "attack":
-                    b[5] = true;
+//                    b[5] = true;
                     if(!robot.frozen.get())robot.attackk.set(true);
                     robot.attackk(true);
                     break;
                 case "move":
-                    b[6] = true;
+//                    b[6] = true;
                     if(!robot.frozen.get())robot.movee.set(true);
                     robot.movee(true);
                     break;
                 case "drop":
-                    b[7] = true;
+//                    b[7] = true;
                     if(!robot.frozen.get())robot.dropp.set(true);
                     robot.dropp(true);
                     break;
                 case "rotate":
-                    b[8] = true;
+//                    b[8] = true;
                     robot.rotatee.set(true);
                     robot.rotatee(true);
             }
@@ -194,10 +232,10 @@ public class MotionController
 //            if(!b[5])robot.attackk(false);
 //            if(!b[6])robot.movee(false);
 //            if(!b[7])robot.dropp(false);
-            for (int j = 0; j < b.length; j++)
-            {
-                if (!b[j]) robot.dict.get(j).set(false);
-            }
+//            for (int j = 0; j < b.length; j++)
+//            {
+//                if (!b[j]) robot.dict.get(j).set(false);
+//            }
             Arrays.fill(b, false);
         }
     }

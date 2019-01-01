@@ -192,9 +192,9 @@ public class Archimage extends Robot
             timeline.play();
         }
         Duration duration;
-        if(mode == 2)duration = Duration.millis(15);
+        if(mode == 2)duration = Duration.millis(10);
         else if (mode == 1) duration = Duration.millis(61.8);
-        else duration = Duration.millis(150);
+        else duration = Duration.millis(250);
         transfere = new Timeline(new KeyFrame(duration, event ->
         {
             if(opponent.hp.get()<=0&&opponent.frozen.get())transfere.stop();
