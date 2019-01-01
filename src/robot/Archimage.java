@@ -8,6 +8,7 @@ public class Archimage
     private long nowtime;
     private boolean strong;
     private boolean going;
+    private boolean naturalGoing;
 
     private long time;
     private boolean wait;
@@ -71,6 +72,7 @@ public class Archimage
 
         if((s=naturalReact()).size()!=0 || (s=attack()).size()!=0) {
             going=(rand.nextInt(4)==0);
+            naturalGoing=rand.nextBoolean();
             return s;
         }
 
@@ -86,8 +88,14 @@ public class Archimage
             else s = go(rand.nextDouble() > 0.1618 * state + 0.1618 * situation);
         }
         else {
-            if(rand.nextInt(5)==1) s.add("drop");
-            else s.add("rotate");;
+            if(!now.A.isdrop && rand.nextInt(5)==1) s.add("drop");
+            else {
+                if(!now.A.isrotate) s.add("rotate");
+                else {
+                    if(now.A.x>1730 || now.A.x<80) naturalGoing^=true;
+                    return go(naturalGoing);
+                }
+            };
         }
 
         return s;
@@ -151,41 +159,46 @@ public class Archimage
 
         if(now.A.ballnumber==0) return s;
         if(now.B.hplocked)  {
-            if(!strong) return s;
+            if(!strong || now.A.isattacking || now.A.isdrop) return s;
             double dis=Math.abs(calc.get_pos()-now.A.x);
             double tt=calc.get_ballSpeed()*(calc.get_time()-nowtime);
-            if(tt > dis) return ballattack();//TODO 判断是否已经在攻击
+            if(tt > dis) return ballattack();
         }
 
         //距离近时，应当直接攻击
         double dis=Math.abs(now.A.x-now.B.x);
-        if(dis<200) {
+        if(dis<200 && !now.A.isattacking && !now.A.isdrop) {
             if(rand.nextInt(200)<dis) return ballattack();
             return go(false);
         }
 
-        if(now.B.isdefending) {
+        if(now.B.isdefending && !now.A.isdrop) {
             if(dis > 888+66*now.B.ballnumber+rand.nextInt((int)((1-state)*235)+1)) {
                 s.add("drop");
                 return s;
             }
         }
-        if(now.B.isdrop) {
-            if(!now.B.isdefending) {
-                if (dis < 450) return ballattack();
-                if (dis < 600) return go(false);
-                if (dis < 1200 - 66 * now.B.ballnumber + rand.nextInt((int) ((1 - state) * 255) + 1))
-                    return move(false);
-            }
-            else {
-                if(dis<233) {
-                    if(rand.nextInt(233) >= dis) return ballattack();
-                    return go(false);
+        if(now.B.isdrop && !now.A.isdrop) {
+            if(!now.A.isattacking)
+            {
+                if (!now.B.isdefending)
+                {
+                    if (dis < 450) return ballattack();
+                    if (dis < 600) return go(false);
+                    if (dis < 1200 - 66 * now.B.ballnumber + rand.nextInt((int) ((1 - state) * 255) + 1))
+                        return move(false);
                 }
-                if (dis < 300) return go(false);
-                if (dis < 1200 - 66 * now.B.ballnumber + rand.nextInt((int) ((1 - state) * 255) + 1))
-                    return move(false);
-
+                else
+                {
+                    if (dis < 233)
+                    {
+                        if (rand.nextInt(233) >= dis) return ballattack();
+                        return go(false);
+                    }
+                    if (dis < 300) return go(false);
+                    if (dis < 1200 - 66 * now.B.ballnumber + rand.nextInt((int) ((1 - state) * 255) + 1))
+                        return move(false);
+                }
             }
             if(dis > 888+66*now.B.ballnumber+rand.nextInt((int)((1-state)*235)+1)) {
                 s.add("drop");
@@ -193,17 +206,11 @@ public class Archimage
             }
         }
 
-        if(!now.B.isdefending && dis<450 && ((situation>0.7&&now.B.ballnumber<=now.A.ballnumber)||state<0.25)) return ballattack();
-
-        if(now.B.ballnumber<now.A.ballnumber && now.A.hp>=now.B.ballnumber*10) {
-            if(dis<200) {
-                if(rand.nextInt(200) >= dis) return ballattack();
-                return go(false);
-            }
+        if(!now.A.isattacking && !now.A.isdrop && now.B.ballnumber<now.A.ballnumber && now.A.hp>=now.B.ballnumber*10) {
             int tt=Math.max((int)(0.6618/situation),(int)(0.3382/state));
             if(tt<1000000000) tt=(int)(0.6618/situation+0.3382/state);
             if(tt==0 || rand.nextInt(tt)==0) {
-                if(rand.nextDouble()<dis/1000 && !now.B.isdefending) return ballattack();
+                if(rand.nextDouble()>dis/1000 && !now.B.isdefending) return ballattack();
                 if(dis > 700) return move(false);
                 if(dis > 200) return go(false);
                 if(rand.nextInt(200) >= dis) return ballattack();
