@@ -107,6 +107,7 @@ public class ShadowMove implements Skill
     @Override
     public void stop()
     {
+        man.setEffect(null);
         isMoving = false;
         timeline.stop();
         timeline2.stop();

@@ -28,9 +28,10 @@ public class Archimage extends Robot
         {
             if(now)
             {
+                transfere.stop();
+                shadowMove.stop();
                 statusController.setFrozen(true);
                 statusController.setHPLocked(true);
-                transfere.stop();
             }
             else
             {
