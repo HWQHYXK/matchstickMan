@@ -103,7 +103,7 @@ public class Archimage
     private void judgeState() {
         int p1=-10,p2=10,p3=4,p4=-4,p5=10;
         double total=p1+p2+p3+p4+p5;
-        double val=now.B.hp/100*p1+now.A.hp/100*p2+now.B.ballnumber/4*p3+now.A.ballnumber/4*p4+rand.nextDouble()*p5;
+        double val=now.B.hp/100*p1+now.A.hp/100*p2+now.A.ballnumber/4*p3+now.B.ballnumber/4*p4+rand.nextDouble()*p5;
         //val越大则情况越乐观
         state=val/total;
         state=Math.min(state,1);
@@ -112,7 +112,7 @@ public class Archimage
     private void judgeSituation() {
         int p1=-4,p2=4,p3=10,p4=-10,p5=5;
         double total=p1+p2+p3+p4+p5;
-        double val=now.B.hp/100*p1+now.A.hp/100*p2+now.B.ballnumber/4*p3+now.A.ballnumber/4*p4+rand.nextDouble()*p5;
+        double val=now.B.hp/100*p1+now.A.hp/100*p2+now.A.ballnumber/4*p3+now.B.ballnumber/4*p4+rand.nextDouble()*p5;
         //val越大则情况越乐观
         situation=val/total;
         situation=Math.min(situation,1);
@@ -268,17 +268,11 @@ public class Archimage
                 }
             }
         ArrayList<String> s=new ArrayList<String>();
-        boolean right=true;
-        if(now.ball[0][0]>10000){
-            if(now.B.x-now.A.x>eps) right=true;
-            else right=false;
-        }
+        if(now.ball[0][0]>10000)
+            s.add(now.B.x-now.A.x>eps?"right":"left");
         else {
-            if (now.ball[0][0] < now.A.x) right=false;
-            else right=true;
+            s.add(now.ball[0][0]>now.A.x?"right":"left");
         }
-        if(right&&!now.A.facingright) s.add("right");
-        else if(!right&&now.A.facingright) s.add("left");
         s.add("down");
         return s;
     }
