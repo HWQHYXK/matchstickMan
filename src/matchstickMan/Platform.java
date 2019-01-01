@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -78,7 +77,7 @@ public class Platform extends Application
                 count(label,2);
                 break;
             case "EVE":
-                EVE(new Archimage(true,Color.ROYALBLUE,2), new Warrior(false,Color.INDIANRED),false);
+                EVE(new Warrior(false,Color.INDIANRED),new Archimage(true,Color.ROYALBLUE,2),false);
                 label.setTextFill(Color.DARKRED);
                 count(label, 3);
                 break;

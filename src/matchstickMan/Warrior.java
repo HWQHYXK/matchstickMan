@@ -46,8 +46,8 @@ public class Warrior extends Robot
             ArrayList<String> strings = main.operate(info);
 //            if(!last.equals(strings)&&!strings.isEmpty())
 //            {
-//            for(int i=0;i<strings.size();i++)System.out.print(strings.get(i)+" ");
-//            System.out.println();
+            for(int i=0;i<strings.size();i++)System.out.print(strings.get(i)+" ");
+            System.out.println();
 //            }
             MotionController.auto(this, strings, 0);
         }));

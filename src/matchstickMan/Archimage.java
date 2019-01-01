@@ -16,9 +16,13 @@ import java.util.Random;
 
 public class Archimage extends Robot
 {
-    private boolean dragonRight;
+    private boolean dragonRight, isIncreasing = false, isDamaging = false;
+    private Timeline increaseTimeline = new Timeline(new KeyFrame(Duration.millis(200), event1 ->
+    {
+        statusController.increaseHP(0.25);
+    })),damageTimeline;
     private int mode;
-    private ImageView dragonView = new ImageView();
+    private ImageView dragonView = new ImageView(), increaseHP = new ImageView("matchstickMan/image/increaseHP.gif"), damageHP = new ImageView("matchstickMan/image/damageHP.gif");
     private BooleanProperty superFrozen = new SimpleBooleanProperty();
     public Archimage(boolean facingRight, Color skin, int mode)
     {
@@ -40,21 +44,59 @@ public class Archimage extends Robot
                 transfere.play();
             }
         });
+        increaseHP.setScaleX(1.5);
+        increaseHP.setScaleY(1.5);
+        increaseHP.setLayoutX(-33);
+        increaseHP.setLayoutY(-20);
+        hp.addListener((hp, old, now) ->
+        {
+            if((double)old>0&&(double)now<(double)old)
+            {
+                isIncreasing = false;
+                getChildren().remove(increaseHP);
+                increaseTimeline.stop();
+            }
+        });
         this.mode = mode;
+    }
+    @Override
+    public void setOpponent(MatchstickMan opponent)
+    {
+        this.opponent = opponent;
+        damageTimeline = new Timeline(new KeyFrame(Duration.millis(200), event ->
+        {
+            opponent.hp.set(opponent.hp.get()-0.25);
+        }));
+        damageTimeline.setOnFinished(event ->
+        {
+            isDamaging = false;
+            opponent.getChildren().remove(damageHP);
+        });
+        damageHP.setScaleX(1.2);
+        damageHP.setScaleY(1.8);
+        damageHP.setLayoutX(-50);
+        damageHP.setLayoutY(40);
     }
     private class OnFinished implements EventHandler<ActionEvent>
     {
-        ImageView dragonView;
+        ImageView monsterView;
         boolean flag = true;
         @Override
         public void handle(ActionEvent event)
         {
-            if(flag&&!opponent.shadowMove.isMoving&&Math.abs(opponent.getLayoutX()-dragonView.getLayoutX()-1.9*MatchstickMan.ratio)<2*MatchstickMan.ratio && Platform.field-opponent.getLayoutY()<MatchstickMan.ratio)
+            if(flag&&!opponent.shadowMove.isMoving&&Math.abs(opponent.getLayoutX()-monsterView.getLayoutX()-1.9*MatchstickMan.ratio)<2*MatchstickMan.ratio && Platform.field-opponent.getLayoutY()<MatchstickMan.ratio)
             {
                 flag = false;
-                dragonView.setLayoutX(0x3fffffff);
-                platform.getChildren().remove(dragonView);
+                monsterView.setLayoutX(0x3fffffff);
+                platform.getChildren().remove(monsterView);
                 opponent.statusController.damageHP(5);
+                if(!isIncreasing&&hp.get()>0)
+                {
+                    isIncreasing = true;
+                    getChildren().add(increaseHP);
+                    increaseTimeline.setCycleCount(Timeline.INDEFINITE);
+                    increaseTimeline.play();
+                }
             }
         }
     }
@@ -102,10 +144,10 @@ public class Archimage extends Robot
         }
         Random random = new Random();
         int k = random.nextInt(2)+1;
-        ImageView dragonView = new ImageView("matchstickMan/image/monster"+ k+".gif");
-        dragonView.setLayoutY(field-100);
+        ImageView monsterView = new ImageView("matchstickMan/image/monster"+ k+".gif");
+        monsterView.setLayoutY(field-100);
         OnFinished onFinished = new OnFinished();
-        onFinished.dragonView = dragonView;
+        onFinished.monsterView = monsterView;
         Timeline judge = new Timeline(new KeyFrame(Duration.millis(1), onFinished));
         judge.setCycleCount(Timeline.INDEFINITE);
         judge.play();
@@ -115,21 +157,23 @@ public class Archimage extends Robot
 
             if(k%2==1)//facingRight
             {
-                dragonView.setLayoutX(leftBorder);
+                monsterView.setLayoutX(leftBorder);
                 new Timeline(new KeyFrame(Duration.seconds(random.nextDouble()+5),event1 ->
                 {
-                    platform.getChildren().remove(dragonView);
-                }, new KeyValue(dragonView.layoutXProperty(), rightBorder))).play();
+                    monsterView.setLayoutX(-0x3fffffff);
+                    platform.getChildren().remove(monsterView);
+                }, new KeyValue(monsterView.layoutXProperty(), rightBorder))).play();
             }
             else
             {
-                dragonView.setLayoutX(rightBorder);
+                monsterView.setLayoutX(rightBorder);
                 new Timeline(new KeyFrame(Duration.seconds(random.nextDouble()+5),event1 ->
                 {
-                    platform.getChildren().remove(dragonView);
-                }, new KeyValue(dragonView.layoutXProperty(), leftBorder))).play();
+                    monsterView.setLayoutX(-0x3fffffff);
+                    platform.getChildren().remove(monsterView);
+                }, new KeyValue(monsterView.layoutXProperty(), leftBorder))).play();
             }
-            platform.getChildren().add(dragonView);
+            platform.getChildren().add(monsterView);
             summon(step+1);
         }));
         timeline.play();
@@ -146,7 +190,14 @@ public class Archimage extends Robot
             {
                 if(300<=opponent.getLayoutX()&&opponent.getLayoutX()<=(rightBorder-leftBorder)/2)
                 {
-                    if(!opponent.shield.showing||opponent.shield.right) opponent.statusController.damageHP(10);
+                    if(!opponent.shield.showing||opponent.shield.right) opponent.hp.set(opponent.hp.get()-10);
+                    if(!isDamaging&&opponent.hp.get()>0)
+                    {
+                        isDamaging = true;
+                        opponent.getChildren().add(damageHP);
+                        damageTimeline.setCycleCount(20);
+                        damageTimeline.play();
+                    }
                 }
             }
             else
@@ -154,6 +205,13 @@ public class Archimage extends Robot
                 if((rightBorder-leftBorder)/2<=opponent.getLayoutX()&&opponent.getLayoutX()<=rightBorder-300)
                 {
                     if(!opponent.shield.showing||!opponent.shield.right)opponent.statusController.damageHP(10);
+                    if(!isDamaging&&opponent.hp.get()>0)
+                    {
+                        isDamaging = true;
+                        opponent.getChildren().add(damageHP);
+                        damageTimeline.setCycleCount(20);
+                        damageTimeline.play();
+                    }
                 }
             }
         }), new KeyFrame(Duration.seconds(2), event -> platform.getChildren().remove(dragonView)));
@@ -184,15 +242,15 @@ public class Archimage extends Robot
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(13+random.nextDouble()*4), event ->
             {
                 summon(0);
-            }), new KeyFrame(Duration.seconds(10), event ->
+            }), new KeyFrame(Duration.seconds(3+random.nextDouble()*6), event ->
             {
-                if(random.nextBoolean()) dragon();
+                dragon();
             }));
             timeline.setCycleCount(Timeline.INDEFINITE);
             timeline.play();
         }
         Duration duration;
-        if(mode == 2)duration = Duration.millis(10);
+        if(mode == 2)duration = Duration.millis(6.18);
         else if (mode == 1) duration = Duration.millis(61.8);
         else duration = Duration.millis(250);
         transfere = new Timeline(new KeyFrame(duration, event ->
@@ -224,8 +282,8 @@ public class Archimage extends Robot
             else strings = main.operate(info, false);
 //            if(!last.equals(strings)&&!strings.isEmpty())
 //            {
-            for(int i=0;i<strings.size();i++)System.out.print(strings.get(i)+" ");
-            System.out.println();
+//            for(int i=0;i<strings.size();i++)System.out.print(strings.get(i)+" ");
+//            System.out.println();
 //            }
             MotionController.auto(this, strings, 0);
         }));

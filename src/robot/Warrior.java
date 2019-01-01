@@ -49,7 +49,7 @@ public class Warrior {
         if((s=attack()).size()!=0) return s;
 
         if(!now.A.isrotate) s.add("rotate");
-        else s=move(rand.nextDouble()>0.5*state+0.5*situation);
+        else s=move(rand.nextDouble()>(-0.233*state+situation)*1.11);
 
         return s;
     }
