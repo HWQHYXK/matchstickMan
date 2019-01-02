@@ -61,13 +61,13 @@ public class Platform extends Application
             case "hard":
                 initMan(new MatchstickMan(true, Color.ROYALBLUE),true);
                 label.setTextFill(Color.SKYBLUE);
-                PVE(new Warrior(false,Color.INDIANRED));
+                PVE(new Warrior(false,Color.MEDIUMPURPLE, true));
                 count(label,1);
                 break;
             case "hail":
                 initMan(new MatchstickMan(true, Color.ROYALBLUE),true);
                 label.setTextFill(Color.SKYBLUE);
-                PVE(new Archimage(false,Color.INDIANRED,2));
+                PVE(new Archimage(false,Color.DARKRED,2));
                 count(label,1);
                 break;
             case "PVP":
@@ -77,7 +77,7 @@ public class Platform extends Application
                 count(label,2);
                 break;
             case "EVE":
-                EVE(new Warrior(true,Color.ROYALBLUE),new Archimage(false,Color.INDIANRED,2),false);
+                EVE(new Warrior(true,Color.MEDIUMPURPLE,true),new Archimage(false,Color.DARKRED,2),false);
                 label.setTextFill(Color.DARKRED);
                 count(label, 3);
                 break;

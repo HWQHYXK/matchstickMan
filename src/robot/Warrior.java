@@ -119,11 +119,11 @@ public class Warrior {
                 return s;
             }
         }
-        if(now.B.ballnumber<=now.A.ballnumber && now.A.hp>=now.B.ballnumber*10) {
+        if(now.B.ballnumber<=now.A.ballnumber) {
             int tt=0;//int tt=(int)(0.6618/situation+0.3382/state);
             if(tt==0 || rand.nextInt(tt)==0) {
                 double dis=Math.abs(now.A.x-now.B.x);
-                if(rand.nextDouble()<dis/1000 && !now.B.isdefending) return ballattack();
+                if(rand.nextDouble()>dis/1800 && !now.B.isdefending) return ballattack();
                 if(dis > 700) return move(false);
                 if(dis > 200) return go(false);
                 if(rand.nextInt(200) >= dis) return ballattack();

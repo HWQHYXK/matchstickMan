@@ -7,6 +7,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -238,6 +239,7 @@ public class Archimage extends Robot
         main = new robot.Archimage();
         if(mode == 2)
         {
+            stick.setImage(new Image("matchstickMan/image/realStick.png"));
             Random random = new Random();
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(13+random.nextDouble()*4), event ->
             {

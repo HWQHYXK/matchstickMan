@@ -40,12 +40,12 @@ public class MotionController
         map2.put("left", KeyCode.LEFT);
         map2.put("right", KeyCode.RIGHT);
         map2.put("down", KeyCode.DOWN);
-        map2.put("switch", KeyCode.ALT);
+        map2.put("switch", KeyCode.BACK_SPACE);
         map2.put("attack", KeyCode.CONTROL);
-        map2.put("move", KeyCode.SLASH);
-        map2.put("shinning", KeyCode.SHIFT);
-        map2.put("drop", KeyCode.ENTER);
-        map2.put("rotate", KeyCode.BACK_SLASH);
+        map2.put("move", KeyCode.SPACE);
+        map2.put("shinning", KeyCode.I);
+        map2.put("drop", KeyCode.PERIOD);
+        map2.put("rotate", KeyCode.COMMA);
     }
     public void controller1(KeyEvent event, MatchstickMan man, HashMap<String, KeyCode> map)
     {
@@ -132,7 +132,7 @@ public class MotionController
 //    }
 //    public void setRobot1(Robot robot1){this.robot1 = robot1;}
     public static void auto(Robot robot,ArrayList<String> commands, int i) {
-        if(i==0)
+        if(i==0&&robot.hp.get()>=0)
         {
             for(String command:commands)
             {
@@ -170,7 +170,7 @@ public class MotionController
                 if(!b[j]) robot.dict.get(j).set(false);
             }
         }
-        if (i < commands.size()) new Timeline(new KeyFrame(Duration.millis(3), event ->
+        if (i < commands.size()&&robot.hp.get()>=0) new Timeline(new KeyFrame(Duration.millis(3), event ->
 //        if (i < commands.size())
         {
             switch (commands.get(i)) {

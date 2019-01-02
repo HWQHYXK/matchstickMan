@@ -12,7 +12,7 @@ import javafx.util.Duration;
 
 public class MagicStick extends ImageView
 {
-    private double damage = 1;
+    public double damage = 1;
     public boolean isRotating = false;
     public boolean isCanceled = true;
     public static double X=-40*MatchstickMan.ratio,Y=-22.5*MatchstickMan.ratio;
@@ -25,7 +25,8 @@ public class MagicStick extends ImageView
     public MagicStick(MatchstickMan man)
     {
         super();
-        if(man.skin.equals(Color.INDIANRED))setImage(new Image("matchstickMan/image/stick1.png"));
+        setVisible(false);
+        if(man.skin.equals(Color.INDIANRED)||man.skin.equals(Color.DARKRED))setImage(new Image("matchstickMan/image/stick1.png"));
         else setImage(new Image("matchstickMan/image/stick2.png"));
         this.setScaleX(0.3);
         this.setScaleY(0.3);
@@ -129,7 +130,7 @@ public class MagicStick extends ImageView
             {
                 host.opponent.statusController.damageHP(15);
                 ImageView imageView;
-                if(host.opponent.skin.equals(Color.INDIANRED))imageView = new ImageView("/matchstickMan/image/red.gif");
+                if(host.opponent.skin.equals(Color.INDIANRED)|| host.opponent.skin.equals(Color.DARKRED))imageView = new ImageView("/matchstickMan/image/red.gif");
                 else imageView = new ImageView("/matchstickMan/image/blue.gif");
                 imageView.setScaleX(1.5);
                 imageView.setScaleY(1.5);
@@ -166,7 +167,7 @@ public class MagicStick extends ImageView
         if(!isRotating)
         {
             ImageView stickEffect;
-            if(host.skin.equals(Color.INDIANRED))stickEffect = new ImageView("matchstickMan/image/stickEffect2.gif");
+            if(host.skin.equals(Color.INDIANRED)||host.skin.equals(Color.DARKRED))stickEffect = new ImageView("matchstickMan/image/stickEffect2.gif");
             else stickEffect = new ImageView("matchstickMan/image/stickEffect1.gif");
             stickEffect.setScaleX(2.2);
             stickEffect.setScaleY(2.2);
@@ -202,6 +203,7 @@ public class MagicStick extends ImageView
                             if(host.getLayoutX()<host.opponent.getLayoutX())
                             {
                                 host.opponent.statusController.damageHP(damage);
+//                                if (host.opponent.statusController.damageHP(damage)>0 && host instanceof Warrior) host.statusController.increaseHP(damage * 0.5);
                             }
                             else
                             {
@@ -221,6 +223,7 @@ public class MagicStick extends ImageView
                             if(host.getLayoutX()>host.opponent.getLayoutX())
                             {
                                 host.opponent.statusController.damageHP(damage);
+//                                if (host.opponent.statusController.damageHP(damage)>0 && host instanceof Warrior) host.statusController.increaseHP(damage * 0.5);
                             }
                             else
                             {
@@ -237,7 +240,10 @@ public class MagicStick extends ImageView
                         }
                     }
                     else
+                    {
                         host.opponent.statusController.damageHP(damage);
+//                        if (host.opponent.statusController.damageHP(damage)>0 && host instanceof Warrior) host.statusController.increaseHP(damage * 0.5);
+                    }
                 }
             }
             , new KeyValue(rotateProperty(), 360)

@@ -26,7 +26,7 @@ public class Ball extends Circle implements Skill
 //    private double now = 0;
 //    private double length;
     private Color skin;
-    private int[] damage = new int[]{10, 20};
+    public double[] damage = new double[]{10, 10};
     public boolean aimed = false;
     public boolean isRecovering = false;
     public boolean isAttacking = false;
@@ -76,8 +76,9 @@ public class Ball extends Circle implements Skill
     public void setMan(MatchstickMan man)
     {
         this.host = man;
-        if(man.skin.equals(Color.INDIANRED))skin = Color.ORANGE;
-        else skin = Color.LIGHTSKYBLUE;
+        if(man.skin.equals(Color.INDIANRED)||man.skin.equals(Color.DARKRED))skin = Color.ORANGERED;
+        else if(man.skin.equals(Color.MEDIUMPURPLE))skin = Color.PURPLE;
+        else skin = Color.DODGERBLUE;
         setEffect(new Bloom(0.1));
     }
     public void init(double x, double y)
@@ -127,7 +128,7 @@ public class Ball extends Circle implements Skill
         if((host.getChildren().contains(this))&&!aimed&&this.isVisible()&&!isAttacking)
         {
             isAttacking = true;
-            if(host.skin.equals(Color.INDIANRED))setColor(Color.RED);
+            if(host.skin.equals(Color.INDIANRED)||host.skin.equals(Color.DARKRED))setColor(Color.RED);
             else setColor(Color.BLUE);
             pathTransition.pause();
             host.getChildren().remove(this);

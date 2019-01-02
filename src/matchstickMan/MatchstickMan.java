@@ -123,7 +123,7 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
         down = new Timeline();
         up = new Timeline();
 
-        this.getChildren().addAll(top,core,head,eye,body,leftArm,rightArm,leftLeg,rightLeg);
+        this.getChildren().addAll(top,core,body,head,eye,leftArm,rightArm,leftLeg,rightLeg);
         limbs.add(this.leftForeArm);
         limbs.add(this.leftBackArm);
         limbs.add(this.body);
@@ -135,6 +135,7 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
         limbs.add(this.rightForeLeg);
 //        this.body.setStroke(Color.YELLOW);
 
+        setColor(skin);
         DeathDetector dd = new DeathDetector(this);
         hp.set(100);
         frozen.set(true);
@@ -196,7 +197,7 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
     }
     public void init()
     {
-        setColor(skin);
+        if(stick!=null)stick.setVisible(true);
         Timeline timeline = new Timeline();
         KeyFrame keyFrame, keyFrame1;
         if(facingRight.get())
@@ -644,7 +645,7 @@ public class MatchstickMan extends Group implements ChangeListener<Boolean>
     {
         if(pressed)
         {
-            if(!this.frozen.get())
+            if(true)
             {
                 boolean flag = true;
                 for(Ball ball:this.balls)

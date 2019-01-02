@@ -2,6 +2,7 @@ package matchstickMan;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
@@ -9,12 +10,27 @@ import java.util.ArrayList;
 
 public class Warrior extends Robot
 {
-    public Warrior(boolean facingRight, Color skin)
+    private boolean strong;
+    public Warrior(boolean facingRight, Color skin, boolean strong)
     {
         super(facingRight, skin);
+        this.strong = strong;
     }
     public void transfere()
     {
+        stick.setImage(new Image("matchstickMan/image/stick3.png"));
+        if(strong)
+        {
+            double damage = stick.damage;
+            hp.addListener((hp,pre,now)->
+            {
+                stick.damage = damage+(100-(Double)hp.getValue())/33.3;
+//                ball0.damage[0] = ball0.damage[1]+(100-(Double)hp.getValue())/20;
+//                ball1.damage[0] = ball1.damage[1]+(100-(Double)hp.getValue())/20;
+//                ball2.damage[0] = ball2.damage[1]+(100-(Double)hp.getValue())/20;
+//                ball3.damage[0] = ball3.damage[1]+(100-(Double)hp.getValue())/20;
+            });
+        }
         robot.Info info;
         robot.Warrior main;
         info = new robot.Info(this.player, opponent.player);
