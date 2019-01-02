@@ -18,9 +18,9 @@ public class StatusController
     }
     public void increaseHP(double value)
     {
-        if(value>=0&&man.hp.get()+value<=100)
+        if(value>=0)
         {
-            man.hp.set(man.hp.get()+value);
+            man.hp.set(man.hp.get()+value<=100?man.hp.get()+value:100);
         }
     }
     public void setHPLocked(Boolean toStatus)

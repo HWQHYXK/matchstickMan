@@ -51,7 +51,7 @@ public class Archimage extends Robot
         increaseHP.setLayoutY(-20);
         hp.addListener((hp, old, now) ->
         {
-            if((double)old>0&&(double)now<(double)old)
+            if((double)old>0&&(double)now<(double)old || (Double)hp.getValue() == 100)
             {
                 isIncreasing = false;
                 getChildren().remove(increaseHP);
@@ -91,7 +91,7 @@ public class Archimage extends Robot
                 monsterView.setLayoutX(0x3fffffff);
                 platform.getChildren().remove(monsterView);
                 opponent.statusController.damageHP(5);
-                if(!isIncreasing&&hp.get()>0)
+                if(!isIncreasing&&hp.get()>0 && hp.get()<100)
                 {
                     isIncreasing = true;
                     getChildren().add(increaseHP);
@@ -158,7 +158,7 @@ public class Archimage extends Robot
 
             if(k%2==1)//facingRight
             {
-                monsterView.setLayoutX(leftBorder);
+                monsterView.setLayoutX(leftBorder-30);
                 new Timeline(new KeyFrame(Duration.seconds(random.nextDouble()+5),event1 ->
                 {
                     monsterView.setLayoutX(-0x3fffffff);
@@ -167,7 +167,7 @@ public class Archimage extends Robot
             }
             else
             {
-                monsterView.setLayoutX(rightBorder);
+                monsterView.setLayoutX(rightBorder+30);
                 new Timeline(new KeyFrame(Duration.seconds(random.nextDouble()+5),event1 ->
                 {
                     monsterView.setLayoutX(-0x3fffffff);
@@ -257,7 +257,11 @@ public class Archimage extends Robot
         else duration = Duration.millis(250);
         transfere = new Timeline(new KeyFrame(duration, event ->
         {
-            if(opponent.hp.get()<=0&&opponent.frozen.get())transfere.stop();
+            if(opponent.hp.get()<=0&&opponent.frozen.get()||hp.get()<=0&&frozen.get())
+            {
+                transfere.stop();
+                stop();
+            }
             double[][] ball=new double[4][2];
             for(int i=0;i<opponent.balls.size();i++)for(int j=0;j<2;j++)
             {
