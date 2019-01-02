@@ -33,7 +33,7 @@ public class StatusController
     }
     public void setFrozen(boolean toStatus)
     {
-        if(man.hp.get()>=0)man.frozen.setValue(toStatus);
+        if(man.hp.get()>0)man.frozen.setValue(toStatus);
     }
     public void reverseFrozen()
     {
