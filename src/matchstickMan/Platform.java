@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class Platform extends Application
     public static final double height = 1000;
     public static final double field = height*0.75;
     public BorderPane border = new BorderPane();
-    public Scene scene = new Scene(border, width, height);
+    public Scene scene = new Scene(border);
     public MatchstickMan man;
     public MatchstickMan man2;
     public Robot robot, goodRobot;
@@ -35,12 +36,13 @@ public class Platform extends Application
 //    public Line hor = new Line(0,6.5*MatchstickMan.ratio+height/2,width,6.5*MatchstickMan.ratio+height/2);
     public void start(Stage primaryStage)
     {
-        display(primaryStage, "fuck");
+        display(primaryStage, "EVE");
     }
     public void display(Stage primaryStage, String mode)
     {
         stage = primaryStage;
         primaryStage.centerOnScreen();
+        primaryStage.initStyle(StageStyle.TRANSPARENT);
         Label label = new Label("3");
         label.setStyle("-fx-font-size: 100");
         border.setCenter(label);
@@ -86,6 +88,12 @@ public class Platform extends Application
                 label.setTextFill(Color.SKYBLUE);
                 count(label,3);
         }
+        border.setPrefHeight(height);
+        border.setPrefWidth(width);
+        border.setScaleX(0.8);
+        border.setScaleY(0.8);
+        border.setScaleShape(true);
+        scene.setFill(Color.TRANSPARENT);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -109,10 +117,11 @@ public class Platform extends Application
         ghp.setAlignment(Pos.TOP_CENTER);
         Image image;
         if(hard)image = new Image("matchstickMan/image/hardBackground.gif");
-        else image = new Image("/matchstickMan/image/background1.gif");
+        else image = new Image("matchstickMan/image/background1.gif");
         border.setBackground(new Background(new BackgroundImage(image,
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1,1,true,true,false,false))));
+
         ghp.setSpacing(width/5);
         border.setTop(ghp);
     }
