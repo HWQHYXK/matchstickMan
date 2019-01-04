@@ -10,11 +10,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Platform extends Application
@@ -46,6 +50,11 @@ public class Platform extends Application
         Label label = new Label("3");
         label.setStyle("-fx-font-size: 100");
         border.setCenter(label);
+        MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("src/matchstickMan/media/music.mp3").toURI().toString()));
+        MediaView mediaView = new MediaView(mediaPlayer);
+        mediaPlayer.setCycleCount(-1);
+        mediaPlayer.play();
+        border.getChildren().add(mediaView);
         switch (mode)
         {
             case "simple":

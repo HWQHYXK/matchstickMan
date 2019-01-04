@@ -38,13 +38,9 @@ public class Main extends Application
 //        primaryStage.setScene(new Scene(parent));
 //        stage = primaryStage;
 //        primaryStage.show();
-        Stage stage = primaryStage;
         MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("src/matchstickMan/media/PointG.mp3").toURI().toString()));
         MediaView mediaView = new MediaView(mediaPlayer);
-        mediaPlayer.setStartTime(Duration.ZERO);
-        mediaPlayer.setStopTime(Duration.minutes(3));
         mediaPlayer.setCycleCount(-1);
-        mediaPlayer.setOnEndOfMedia(mediaPlayer::play);
         mediaPlayer.play();
         BorderPane borderPane = new BorderPane();
         borderPane.getChildren().add(mediaView);
@@ -76,6 +72,7 @@ public class Main extends Application
                 {
                     borderPane.getChildren().clear();
                     primaryStage.close();
+                    mediaPlayer.stop();
                     Chooser.display();
                 });
                 hBox.getChildren().add(button);
