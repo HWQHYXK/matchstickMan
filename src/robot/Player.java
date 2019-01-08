@@ -1,6 +1,6 @@
 package robot;
 
-public class Player extends mangFu.Player
+public class Player
 {
     double x,y,hp;
     int ballnumber;

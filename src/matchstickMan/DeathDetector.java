@@ -33,9 +33,6 @@ public class DeathDetector implements ChangeListener<Number>
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500),event ->
             {
                 man.platform.getChildren().add(0,imageView);
-            }),new KeyFrame(Duration.millis(2500), event ->
-            {
-//                imageView.setVisible(false);
             }));
 //            KeyFrame keyFrame = new KeyFrame(Duration.millis(500));
 //            for(Line limb:man.limbs)
