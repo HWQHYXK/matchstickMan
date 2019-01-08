@@ -21,7 +21,7 @@ public class Archimage extends Robot
     private Timeline increaseTimeline = new Timeline(new KeyFrame(Duration.millis(200), event1 ->
     {
         statusController.increaseHP(0.25);
-    })),damageTimeline;
+    })),damageTimeline, magic = new Timeline();
     private int mode;
     private ImageView dragonView = new ImageView(), increaseHP = new ImageView("matchstickMan/image/increaseHP.gif"), damageHP = new ImageView("matchstickMan/image/damageHP.gif");
     private BooleanProperty superFrozen = new SimpleBooleanProperty();
@@ -241,15 +241,15 @@ public class Archimage extends Robot
         {
             stick.setImage(new Image("matchstickMan/image/realStick.png"));
             Random random = new Random();
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(13+random.nextDouble()*4), event ->
+            magic = new Timeline(new KeyFrame(Duration.seconds(13+random.nextDouble()*4), event ->
             {
                 summon(0);
             }), new KeyFrame(Duration.seconds(3+random.nextDouble()*6), event ->
             {
                 dragon();
             }));
-            timeline.setCycleCount(Timeline.INDEFINITE);
-            timeline.play();
+            magic.setCycleCount(Timeline.INDEFINITE);
+            magic.play();
         }
         Duration duration;
         if(mode == 2)duration = Duration.millis(6.18);
@@ -259,6 +259,7 @@ public class Archimage extends Robot
         {
             if(opponent.hp.get()<=0&&opponent.frozen.get()||hp.get()<=0&&frozen.get())
             {
+                if(mode == 2)magic.stop();
                 transfere.stop();
                 stop();
             }
