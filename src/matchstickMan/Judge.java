@@ -58,7 +58,7 @@ public class Judge
         }
         if(Math.abs(Math.sqrt(squareDistanceToHead) - (MatchstickMan.ratio+radius)) <= toHead)
         {
-            System.out.println(Math.sqrt(squareDistanceToHead));
+//            System.out.println(Math.sqrt(squareDistanceToHead));
             return 2;
         }
         else

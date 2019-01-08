@@ -24,7 +24,7 @@ public class DeathDetector implements ChangeListener<Number>
         if((double)oldHP >0 && (double)newHP <= 0)
         {
             man.stop();
-            Image image = new Image("/matchStickMan/image/blood3.gif");
+            Image image = new Image("matchstickMan/image/blood3.gif");
             ImageView imageView = new ImageView(image);
             imageView.setScaleX(1.8);
             imageView.setScaleY(1.8);
@@ -75,7 +75,7 @@ public class DeathDetector implements ChangeListener<Number>
                 }
                 catch (IOException e)
                 {
-//                    Chooser.display();
+                    Chooser.display();
                 }
             });
             man.platform.setCenter(restart);

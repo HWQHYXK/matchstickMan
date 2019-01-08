@@ -267,7 +267,7 @@ public class Ball extends Circle implements Skill
                     man.ball1.attack(-new Random().nextInt(3) * 5 * MatchstickMan.ratio - 30 * MatchstickMan.ratio);
             }catch (Exception e)
             {
-                System.out.println("haha");
+
             }
         });
         KeyFrame keyFrame1 = new KeyFrame(Duration.millis(100), event1 ->
@@ -279,7 +279,7 @@ public class Ball extends Circle implements Skill
                     man.ball2.attack(-new Random().nextInt(3) * 5 * MatchstickMan.ratio - 30 * MatchstickMan.ratio);
             }catch (Exception e)
             {
-                System.out.println("haha");
+
             }
         });
         KeyFrame keyFrame2 = new KeyFrame(Duration.millis(150), event1 ->
@@ -291,7 +291,7 @@ public class Ball extends Circle implements Skill
                     man.ball3.attack(-new Random().nextInt(3) * 5 * MatchstickMan.ratio - 30 * MatchstickMan.ratio);
             }catch (Exception e)
             {
-                System.out.println("haha");
+
             }
         });
         Timeline t1 = new Timeline(keyFrame, keyFrame1, keyFrame2);

@@ -34,7 +34,6 @@ public class Bullet extends Circle
             switch (judge.calc(this.getCenterX(), this.getCenterY(), this.getRadius(),10,10,50))
             {
                 case -1:
-                    System.out.println("shield");
                     man.statusController.damageHP(0);
                     timeline.pause();
                     timeline.playFrom(Duration.millis(20));
@@ -42,13 +41,11 @@ public class Bullet extends Circle
                 case 0:
                     break;
                 case 1:
-                    System.out.println("胳膊");
                     man.statusController.damageHP(damage[0]);
                     timeline.pause();
                     timeline.playFrom(Duration.millis(20));
                     break;
                 case 2:
-                    System.out.println("头");
                     man.statusController.damageHP(damage[1]);
                     timeline.pause();
                     timeline.playFrom(Duration.millis(20));

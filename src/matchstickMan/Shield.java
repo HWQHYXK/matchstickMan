@@ -21,7 +21,7 @@ public class Shield extends Arc implements ChangeListener<Boolean>
     {
         super(0,2.75*MatchstickMan.ratio,4.5*MatchstickMan.ratio,4.5*MatchstickMan.ratio,90,-146.44269);
         host = man;
-        System.out.println(180-Math.acos(0.8333333333333333333333333333333333333333)/Math.PI*180);
+//        System.out.println(180-Math.acos(0.8333333333333333333333333333333333333333)/Math.PI*180);
         this.setEffect(new Bloom(0.1));
         this.setStrokeWidth(4);
         if(man.skin.equals(Color.INDIANRED)||man.skin.equals(Color.DARKRED))this.setStroke(Color.ORANGE);
