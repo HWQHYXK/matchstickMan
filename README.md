@@ -1,7 +1,7 @@
 # matchstickMan
   A small JavaFX game, use your wisdom and reaction speed to defeat your opponents!
   
-## Platform 环境
+## 环境  Platform  
 [最新版Java](https://www.java.com/zh_CN/)  
 [JDK 8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 ## 开始 To start with  
