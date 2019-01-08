@@ -169,7 +169,7 @@ public class Ball extends Circle implements Skill
     }
     public void onFinished(ActionEvent e)
     {
-        switch (judge.calc(this.getLayoutX(), this.getLayoutY(), this.getRadius(),20,10,50)) {
+        switch (judge.calc(this.getLayoutX(), this.getLayoutY(), this.getRadius(),20,20,50)) {
             case -1:
                 host.opponent.statusController.damageHP(0);
                 timeline.stop();
