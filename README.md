@@ -15,27 +15,20 @@
 >P2: Use ←↑→ to control directions, use ↓ to defend, use Backspace to enable your magic ball, use Ctrl to attack by balls, use Comma to rotate your magicStick, use Period to drop your stick to the opponent, use Space to dash  
   
 ## 一些解释 Some Explanation
-* 盾牌可以挡住敌人的球和敌人的转棍和火球的火焰  
+* *盾牌可以挡住敌人的球和敌人的转棍和火球的火焰*  
 Shield can defend your opponent's balls, stick rotating and dragon's fire but cannot defend stick drop.
-****
-* 用跳可以避免小骷髅的攻击  
+* *用跳可以避免小骷髅的攻击*  
 Using jump to avoid the skeleton's attack.
-****
-* 闪避不能躲避火龙火焰但是可以避免其他的伤害  
+* *闪避不能躲避火龙火焰但是可以避免其他的伤害*  
 Dash cannot avoid the dragon's fire but can avoid other means of attacking
-****
-* 你不能做任何事情当你防御和闪避时  
+* *你不能做任何事情当你防御和闪避时*  
 You cannot do anything when you defend or dash
-****
-* 你可以在闪避之前开始转棍子以达到更好的效果  
+* *你可以在闪避之前开始转棍子以达到更好的效果*  
 You may rotate the stick before you dash to avoid the damage from others and do damage to others.
-****
-* 在困难模式，你的敌人会随血量下降而攻击力上升  
+* *在困难模式，你的敌人会随血量下降而攻击力上升*  
 In the hard mode, your opponent's madness will rise in inverse proportion with its HP along with the rise of its ATK.
-****
-* 在地狱模式，你的敌人可以利用两种魔法，小骷髅怪会让他的血量上升，而火龙的火焰会让你持续掉血  
+* *在地狱模式，你的敌人可以利用两种魔法，小骷髅怪会让他的血量上升，而火龙的火焰会让你持续掉血*  
 In the Hail mode, your opponent can use two magic, it can use the skeleton to increase its HP and use dragon's fire to damage over time.
-****
 
 ## Enjoy
 
